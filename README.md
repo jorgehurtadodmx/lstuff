@@ -1,6 +1,6 @@
 # GESTOR DE TAREAS
 
-## Crear proyecto de gestión de restaurantes, con entidades.
+## Crear proyecto de gestión de tareas, con entidades.
 
 ### PASOS A SEGUIR
 - Crear un repositorio de GitHub por grupo
