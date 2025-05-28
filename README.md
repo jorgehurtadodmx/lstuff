@@ -29,7 +29,6 @@
 ### Grupo 1: Gestor de tareas
 
 - Paco Gutiérrez
-- Ángel García
 - Ayelén Bosch
 - Javi Noguer
 - Jorge Hurtado
