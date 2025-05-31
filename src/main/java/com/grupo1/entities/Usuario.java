@@ -12,9 +12,11 @@ public class Usuario {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "idUsuario")
     private Long id;
 
-    @Column(nullable = false)
+
+    @Column(name = "nombre")
     private String nombre;
 
     private String primerApellido;
