@@ -15,6 +15,9 @@
         <td th:text="${usuario.id}"></td>
         <td th:text="${usuario.nombre}"></td>
         <td>hola</td>
+        <td>
+            <a th:href="@{/usuarios/{id}(id=${usuario.id})}">Ver detalle</a>
+        </td>
     </tr>
 </table>
 
