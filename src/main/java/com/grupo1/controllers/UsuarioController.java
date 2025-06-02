@@ -31,7 +31,7 @@ public class UsuarioController {
         List<Usuario> usuarios = usuarioRepository.findAll();
 
         model.addAttribute("usuarios", usuarios);
-        return "user-list";
+        return "/usuario/user-list";
     }
 
 
@@ -44,7 +44,7 @@ public class UsuarioController {
         } else {
             model.addAttribute("error", "404 usuario no encontrado");
         }
-        return "user-detail";
+        return "/usuario/user-detail";
     }
 
     @GetMapping("/{id}/editar")
@@ -57,7 +57,7 @@ public class UsuarioController {
         } else {
             model.addAttribute("error", "usuario no encontrado");
         }
-        return "/user-detail-edit";
+        return "/usuario/user-detail-edit";
     }
 
 }
