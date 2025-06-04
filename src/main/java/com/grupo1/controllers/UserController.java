@@ -1,8 +1,8 @@
 package com.grupo1.controllers;
 
 
-import com.grupo1.entities.Usuario;
-import com.grupo1.repositories.UsuarioRepository;
+import com.grupo1.entities.User;
+import com.grupo1.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,28 +16,28 @@ import java.util.Optional;
 
 @Controller
 @RequestMapping("/usuarios")
-public class UsuarioController {
+public class UserController {
 
     @Autowired
-    private UsuarioRepository usuarioRepository;
+    private UserRepository userRepository;
 
-    public UsuarioController(UsuarioRepository usuarioRepository) {
-        this.usuarioRepository = usuarioRepository;
+    public UserController(UserRepository userRepository) {
+        this.userRepository = userRepository;
     }
 
 
     @GetMapping
     public String getUsuarios(Model model) {
-        List<Usuario> usuarios = usuarioRepository.findAll();
+        List<User> users = userRepository.findAll();
 
-        model.addAttribute("usuarios", usuarios);
+        model.addAttribute("usuarios", users);
         return "/usuario/user-list";
     }
 
 
     @GetMapping("/{id}")
     public String findById(Model model, @PathVariable Long id) {
-        Optional<Usuario> usuario = usuarioRepository.findById(id);
+        Optional<User> usuario = userRepository.findById(id);
         if (usuario.isPresent()) {
             model.addAttribute("usuario", usuario.get());
 
@@ -49,7 +49,7 @@ public class UsuarioController {
 
     @GetMapping("/{id}/editar")
         public String editar(Model model, @PathVariable Long id)  {
-        Optional<Usuario> usuario = usuarioRepository.findById(id);
+        Optional<User> usuario = userRepository.findById(id);
         if (usuario.isPresent()) {
             model.addAttribute("usuario", usuario.get());
             //resto de datos relacionados con usuario para pasarselos a la vista.

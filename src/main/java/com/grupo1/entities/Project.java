@@ -1,13 +1,12 @@
 package com.grupo1.entities;
 
-import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
 
 @Entity
 @Table(name = "proyecto")
-public class Proyecto {
+public class Project {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,9 +22,9 @@ public class Proyecto {
 
     private Boolean activo;
 
-    public Proyecto() {}
+    public Project() {}
 
-    public Proyecto(Boolean activo, LocalDate fecha, String descripcion, String nombre) {
+    public Project(Boolean activo, LocalDate fecha, String descripcion, String nombre) {
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.fechaInicio = fecha;

@@ -8,7 +8,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "usuarios")
-public class Usuario {
+public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -35,9 +35,9 @@ public class Usuario {
 
     private Set<Role> roles;
 
-    public Usuario() {}
+    public User() {}
 
-    public Usuario(String nombre, String primerApellido, String segundoApellido, String username, String email, Boolean activo, String telefono, LocalDate fechaNacimiento, Set<Role> roles) {
+    public User(String nombre, String primerApellido, String segundoApellido, String username, String email, Boolean activo, String telefono, LocalDate fechaNacimiento, Set<Role> roles) {
         this.nombre = nombre;
         this.primerApellido = primerApellido;
         this.segundoApellido = segundoApellido;

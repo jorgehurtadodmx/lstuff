@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 
 @Entity
 @Table(name = "tareas")
-public class Tarea {
+public class Task {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -19,16 +19,16 @@ public class Tarea {
 
     @ManyToOne
     @JoinColumn(name = "proyecto_id")
-    private Proyecto proyecto;
+    private Project project;
 
 
-    public Tarea() {}
+    public Task() {}
 
-    public Tarea(String titulo, String descripcion, Boolean completada, Proyecto proyecto) {
+    public Task(String titulo, String descripcion, Boolean completada, Project project) {
         this.titulo = titulo;
         this.descripcion = descripcion;
         this.completada = completada;
-        this.proyecto = proyecto;
+        this.project = project;
     }
 
     public Long getId() {
@@ -63,12 +63,12 @@ public class Tarea {
         this.completada = completada;
     }
 
-    public Proyecto getProyecto() {
-        return proyecto;
+    public Project getProyecto() {
+        return project;
     }
 
-    public void setProyecto(Proyecto proyecto) {
-        this.proyecto = proyecto;
+    public void setProyecto(Project project) {
+        this.project = project;
     }
 
     @Override
@@ -78,7 +78,7 @@ public class Tarea {
                 ", titulo='" + titulo + '\'' +
                 ", descripcion='" + descripcion + '\'' +
                 ", completada=" + completada +
-                ", proyecto=" + proyecto +
+                ", proyecto=" + project +
                 '}';
     }
 }

@@ -1,6 +1,6 @@
 # GESTOR DE TAREAS
 
-## Crear proyecto de gestión de tareas, con entidades.
+## Crear project de gestión de tareas, con entidades.
 
 ### PASOS A SEGUIR
 - Crear un repositorio de GitHub por grupo
@@ -39,9 +39,9 @@
 
 02/07/2025 presentación a empresas
 
-Cada grupo presenta el proyecto en 15 minutos.
+Cada grupo presenta el project en 15 minutos.
 
-* Nombre y logo del proyecto
+* Nombre y logo del project
 * Introducción y objetivos y problema que resuelve
 * Equipo: presentarse cada uno brevemente pero dando una pincelada de la experiencia o cursos anteriores.
 * Tecnologías empleadas: Java 24, IntelliJ IDEA, Spring Boot, HTML, Bootstrap CSS, Thymeleaf, H2 o MySQL, Git y GitHub, Reuniones diarias o semanales, gestión de proyectos con Trello-Jira-Notion
