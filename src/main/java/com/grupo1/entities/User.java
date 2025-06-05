@@ -1,11 +1,20 @@
 package com.grupo1.entities;
 
 import jakarta.persistence.*;
+import lombok.*;
 
 import javax.management.relation.Role;
-import java.time.LocalDate;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
+@Getter
+@Setter
+@ToString(exclude = "projects") // evita el bucle infinito al imprimir pryecto
+@NoArgsConstructor // constructor vacío
+@AllArgsConstructor // constructor con todos los parámetros
+@Builder // permite crear objetos de forma más sencilla
 @Entity
 @Table(name = "usuarios")
 public class User {
@@ -16,132 +25,34 @@ public class User {
     private Long id;
 
 
-    @Column(name = "nombre")
-    private String nombre;
+    @Column(name = "nombre", nullable = false)
+    private String name;
 
-    private String primerApellido;
+    @Column(name = "apellido", nullable = false)
+    private String surname;
 
-    private String segundoApellido;
-
+    @Column(name = "username", unique = true, nullable = false)
     private String username;
 
+    @Column(name="email", unique = true, nullable = false)
     private String email;
 
-    private Boolean activo;
+    @Column(name = "password", nullable = false)
+    private String password;
 
-    private String telefono;
+    @Column(name = "activo", nullable = false)
+    private Boolean active;
 
-    private LocalDate fechaNacimiento;
+    @Column(name = "telefono")
+    private String phone;
 
+    @Column(name="rol", nullable = false)
     private Set<Role> roles;
 
-    public User() {}
+   //Muchos usuarios pueden pertenecer a muchos proyectos
+   @ManyToMany
+   @JoinTable(name = "user_project")
+   @Builder.Default // inicializa la lista vacía por defecto (un arrayList vacío)
+   private List<Project> projects = new ArrayList<>();
 
-    public User(String nombre, String primerApellido, String segundoApellido, String username, String email, Boolean activo, String telefono, LocalDate fechaNacimiento, Set<Role> roles) {
-        this.nombre = nombre;
-        this.primerApellido = primerApellido;
-        this.segundoApellido = segundoApellido;
-        this.username = username;
-        this.email = email;
-        this.activo = activo;
-        this.telefono = telefono;
-        this.fechaNacimiento = fechaNacimiento;
-        this.roles = roles;
-    }
-
-    public Set<Role> getRoles() {
-        return roles;
-    }
-
-    public void setRoles(Set<Role> roles) {
-        this.roles = roles;
-    }
-
-    public LocalDate getFechaNacimiento() {
-        return fechaNacimiento;
-    }
-
-    public void setFechaNacimiento(LocalDate fechaNacimiento) {
-        this.fechaNacimiento = fechaNacimiento;
-    }
-
-    public String getTelefono() {
-        return telefono;
-    }
-
-    public void setTelefono(String telefono) {
-        this.telefono = telefono;
-    }
-
-    public Boolean getActivo() {
-        return activo;
-    }
-
-    public void setActivo(Boolean activo) {
-        this.activo = activo;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getSegundoApellido() {
-        return segundoApellido;
-    }
-
-    public void setSegundoApellido(String segundoApellido) {
-        this.segundoApellido = segundoApellido;
-    }
-
-    public String getPrimerApellido() {
-        return primerApellido;
-    }
-
-    public void setPrimerApellido(String primerApellido) {
-        this.primerApellido = primerApellido;
-    }
-
-    public String getNombre() {
-        return nombre;
-    }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    @Override
-    public String toString() {
-        return "Usuario{" +
-                "id=" + id +
-                ", nombre='" + nombre + '\'' +
-                ", primerApellido='" + primerApellido + '\'' +
-                ", segundoApellido='" + segundoApellido + '\'' +
-                ", username='" + username + '\'' +
-                ", email='" + email + '\'' +
-                ", activo=" + activo +
-                ", telefono='" + telefono + '\'' +
-                ", fechaNacimiento=" + fechaNacimiento +
-                ", roles=" + roles +
-                '}';
-    }
 }
