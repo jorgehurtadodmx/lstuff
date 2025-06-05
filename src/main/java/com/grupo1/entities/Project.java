@@ -1,9 +1,16 @@
 package com.grupo1.entities;
 
 import jakarta.persistence.*;
+import lombok.*;
 
 import java.time.LocalDate;
 
+@Getter
+@Setter
+@ToString
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 @Entity
 @Table(name = "proyecto")
 public class Project {
@@ -21,65 +28,4 @@ public class Project {
     private LocalDate fechaInicio;
 
     private Boolean activo;
-
-    public Project() {}
-
-    public Project(Boolean activo, LocalDate fecha, String descripcion, String nombre) {
-        this.nombre = nombre;
-        this.descripcion = descripcion;
-        this.fechaInicio = fecha;
-        this.activo = activo;
-
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        id = id;
-    }
-
-    public String getNombre() {
-        return nombre;
-    }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
-    public String getDescripcion() {
-        return descripcion;
-    }
-
-    public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
-    }
-
-    public LocalDate getFecha() {
-        return fechaInicio;
-    }
-
-    public void setFecha(LocalDate fecha) {
-        this.fechaInicio = fecha;
-    }
-
-    public Boolean getActivo() {
-        return activo;
-    }
-
-    public void setActivo(Boolean activo) {
-        this.activo = activo;
-    }
-
-    @Override
-    public String toString() {
-        return "Proyecto{" +
-                "Id=" + id +
-                ", nombre='" + nombre + '\'' +
-                ", descripcion='" + descripcion + '\'' +
-                ", fecha=" + fechaInicio +
-                ", activo=" + activo +
-                '}';
-    }
 }
