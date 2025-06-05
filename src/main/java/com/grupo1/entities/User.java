@@ -8,6 +8,7 @@ import javax.management.relation.Role;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 
 @Getter
 @Setter
@@ -19,11 +20,11 @@ import java.util.Set;
 @Table(name = "usuarios")
 public class User {
 
+    @Builder.Default
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "idUsuario")
-    private Long id;
-
+    @GeneratedValue
+    @Column(name = "idUsuario", columnDefinition = "BINARY(16)")
+    private UUID id = UUID.randomUUID();
 
     @Column(name = "nombre", nullable = false)
     private String name;
@@ -40,8 +41,9 @@ public class User {
     @Column(name = "password", nullable = false)
     private String password;
 
+    @Builder.Default
     @Column(name = "activo", nullable = false)
-    private Boolean active;
+    private Boolean active = true;
 
     @Column(name = "telefono")
     private String phone;
