@@ -1,10 +1,26 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Detalle de tarea</title>
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}">
+
 </head>
 <body>
+<div th:if="${tarea}">
+    <h2 th:text="${tarea.name}"></h2>
+    <div class="detalle-item">
+        <strong>ID:</strong><span th:text="${tarea.id}"></span></strong>
+    </div>
+    <div class="detalle-item">
+        <strong>Nombre:</strong><span th:text="${tarea.name}"></span></strong>
+    </div>
+
+
+</div>
+
 
 </body>
+
 </html>
