@@ -48,6 +48,7 @@ public class User {
     @Column(name = "telefono")
     private String phone;
 
+    //esto no está bien,
     @Column(name="rol", nullable = false)
     private Set<Role> roles;
 
