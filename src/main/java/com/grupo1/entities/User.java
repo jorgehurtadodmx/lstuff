@@ -2,29 +2,24 @@ package com.grupo1.entities;
 
 import jakarta.persistence.*;
 import lombok.*;
-
-import javax.management.relation.Role;
-
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 import java.util.UUID;
 
 @Getter
 @Setter
-@ToString(exclude = "projects") // evita el bucle infinito al imprimir pryecto
-@NoArgsConstructor // constructor vacío
-@AllArgsConstructor // constructor con todos los parámetros
-@Builder // permite crear objetos de forma más sencilla
+@ToString(exclude = "projects")
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 @Entity
 @Table(name = "usuarios")
 public class User {
 
-    @Builder.Default
     @Id
     @GeneratedValue
     @Column(name = "idUsuario", columnDefinition = "BINARY(16)")
-    private UUID id = UUID.randomUUID();
+    private UUID id;
 
     @Column(name = "nombre", nullable = false)
     private String name;
@@ -39,23 +34,20 @@ public class User {
     private String email;
 
     @Column(name = "password", nullable = false)
-    private String password;
+    private String password; //Contraseña encriptada
 
-    @Builder.Default
     @Column(name = "activo", nullable = false)
-    private Boolean active = true;
+    private Boolean active = true; //activar o desactivar usuario
 
     @Column(name = "telefono")
     private String phone;
 
-    //esto no está bien,
-    @Column(name="rol", nullable = false)
-    private Set<Role> roles;
+    @Enumerated(EnumType.STRING)//Guardar el Rol como texto
+    @Column(nullable = false)
+    private UserRole role;
 
-   //Muchos usuarios pueden pertenecer a muchos proyectos
-   @ManyToMany
-   @JoinTable(name = "user_project")
-   @Builder.Default // inicializa la lista vacía por defecto (un arrayList vacío)
-   private List<Project> projects = new ArrayList<>();
-
+    @ManyToMany //varios usuarios pueden pertenecer a varios proyectos y viceversa.
+    @JoinTable(name = "user_project")
+    @Builder.Default
+    private List<Project> projects = new ArrayList<>();
 }
