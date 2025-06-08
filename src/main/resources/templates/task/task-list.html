@@ -29,12 +29,16 @@
     </div>
 </div>
 
-<!-- MESSAGE IF EMPTY -->
+<!-- MESSAGE IF NO TASKS FOUND, PENDING STYLE -->
 <div th:if="${tasks.isEmpty()}" class="alert alert-warning">
     <p class="mb-0">No tasks available at the moment.</p>
 </div>
 
-<!-- TASKS TABLE -->
+<div class="mb-3">
+    <a class="btn btn-success" th:href="@{/tasks/new}">+ New task</a>
+</div>
+
+<!-- TASKS TABLE, PENDIGN STYLE -->
 <div th:unless="${tasks.isEmpty()}" class="table-responsive">
     <table class="table table-bordered table-striped table-hover">
         <thead class="table-dark">
@@ -55,11 +59,13 @@
             <td th:text="${task.id}"></td>
             <td th:text="${task.title}"></td>
             <td th:text="${task.description}"></td>
-            <td th:text="${task.dueDate != null ? #dates.format(task.dueDate, 'dd/MM/yyyy') : 'No due date'}"></td>
-            <td th:text="${task.createdAt != null ? #dates.format(task.createdAt, 'dd/MM/yyyy') : 'Unknown'}"></td>
-            <td th:text="${task.updatedAt != null ? #dates.format(task.updatedAt, 'dd/MM/yyyy') : 'Unknown'}"></td>
-            <td th:text="${task.proyecto != null ? task.proyecto.nombre : 'No project'}"></td>
-            <!--<td th:text="${task.assignedToUser != null ? task.assignedToUser.nombre : 'Unassigned'}"></td>-->
+            <p>Valor dueDate: <span th:text="${task.dueDate}">No hay fecha</span></p>
+
+            <td th:text="${task.dueDate != null ? #temporals.format(task.dueDate, 'dd/MM/yyyy') : 'No due date'}"></td>
+            <td th:text="${task.createdAt != null ? #temporals.format(task.createdAt, 'dd/MM/yyyy') : 'No created date'}"></td>
+            <td th:text="${task.updatedAt != null ? #temporals.format(task.updatedAt, 'dd/MM/yyyy') : 'Unknown'}"></td>
+            <td th:text="${task.proyecto != null ? task.proyecto.name : 'No project'}"></td>
+            <!--<td th:text="${task.assignedToUser != null ? task.assignedToUser.name : 'Unassigned'}"></td>-->
             <td>
                 <div class="d-flex gap-1">
                     <a th:href="@{/tasks/{id}(id=${task.id})}" class="btn btn-primary btn-sm">Details</a>

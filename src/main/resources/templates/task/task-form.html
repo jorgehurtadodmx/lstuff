@@ -1,10 +1,70 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Formulario de Tarea</title>
 </head>
 <body>
+
+<h1 th:text="${task.id != null ? 'Modificar tarea ' + task.id : 'Crear nueva tarea'}"></h1>
+
+<form th:action="@{/tasks/save}" th:object="${task}" method="post">
+    <!-- ID oculto -->
+    <input type="hidden" th:field="*{id}" />
+
+    <!-- Título -->
+    <div>
+        <label for="title">Título:</label>
+        <input type="text" id="title" th:field="*{title}" placeholder="Título de la tarea" required />
+    </div>
+    <br>
+
+    <!-- Descripción -->
+    <div>
+        <label for="description">Descripción:</label>
+        <textarea id="description" th:field="*{description}" placeholder="Descripción de la tarea" rows="4"></textarea>
+    </div>
+    <br>
+    <!-- Fecha de vencimiento -->
+    <div>
+        <label for="dueDate">Fecha límite:</label>
+        <input type="date" id="dueDate" name="dueDate"
+               th:value="${task.dueDate != null} ? ${task.dueDate} : ''" />
+    </div>
+
+   <!-- hsta que no se añadan los otros dates, la edicion de una puede provocar un nulo en las no editadas.-->
+    <!-- Fecha 2 -->
+    <div>
+        <label for="createdAt">Fecha de creacion tarea:</label>
+        <input type="date" id="createdAt" name="createdAt"
+               th:value="${task.createdAt != null} ? ${task.createdAt} : ''" />
+    </div>
+
+    <!-- Fecha 3 -->
+    <div>
+        <label for="updatedAt">Fecha de actualizacion tarea:</label>
+        <input type="date" id="updatedAt" name="updatedAt"
+               th:value="${task.updatedAt != null} ? ${task.updatedAt} : ''" />
+    </div>
+
+    <!-- Proyecto -->
+    <div>
+        <label for="project">Proyecto:</label>
+        <select id="project" th:field="*{project}" required>
+            <option value="">-- Selecciona un proyecto --</option>
+            <option th:each="proj : ${projects}" th:value="${proj.id}" th:text="${proj.name}"></option>
+        </select>
+    </div>
+    <br>
+
+    <!-- Botones -->
+    <div>
+        <a th:href="@{/tasks}">Cancelar</a>
+        <button type="submit">
+            <span th:text="${task.id != null ? 'Actualizar' : 'Guardar'}"></span>
+        </button>
+    </div>
+</form>
 
 </body>
 </html>

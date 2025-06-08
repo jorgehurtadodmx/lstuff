@@ -2,10 +2,11 @@ package com.grupo1.entities;
 
 import jakarta.persistence.*;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 @Entity
-@Table(name = "tareas")
+@Table(name = "tasks")
 public class Task {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -17,26 +18,27 @@ public class Task {
     private String description;
 
     //due_date
-    private Date dueDate;
+    @Column(name = "due_date")
+    private LocalDate dueDate;
 
     //created_at
-    private Date createdAt;
+    private LocalDate createdAt;
 
     //updated_at
-    private Date updatedAt;
+    private LocalDate updatedAt;
 
     @ManyToOne
-    @JoinColumn(name = "proyecto_id", nullable = false)
+    @JoinColumn(name = "project_id", nullable = false)
     private Project project;
 
     /*@ManyToOne
-    @JoinColumn(name = "assigned_to_user_id")
+    @JoinColumn(name = "assigned_to_user_id", columnDefinition = "BINARY(16)")
     private User assignedToUser;*/
 
     public Task() {}
 
-    public Task(Long id, String title, String description, Date dueDate, Date createdAt, Date updatedAt, Project project
-                //User assignedToUser
+    public Task(Long id, String title, String description, LocalDate dueDate, LocalDate createdAt, LocalDate updatedAt, Project project
+
     ) {
         this.id = id;
         this.title = title;
@@ -45,7 +47,7 @@ public class Task {
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
         this.project = project;
-        //this.assignedToUser = assignedToUser;
+       // this.assignedToUser = assignedToUser;
     }
 
 
@@ -98,27 +100,27 @@ public class Task {
         this.description = description;
     }
 
-    public Date getDueDate() {
+    public LocalDate getDueDate() {
         return dueDate;
     }
 
-    public void setDueDate(Date dueDate) {
+    public void setDueDate(LocalDate dueDate) {
         this.dueDate = dueDate;
     }
 
-    public Date getCreatedAt() {
+    public LocalDate getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(Date createdAt) {
+    public void setCreatedAt(LocalDate createdAt) {
         this.createdAt = createdAt;
     }
 
-    public Date getUpdatedAt() {
+    public LocalDate getUpdatedAt() {
         return updatedAt;
     }
 
-    public void setUpdatedAt(Date updatedAt) {
+    public void setUpdatedAt(LocalDate updatedAt) {
         this.updatedAt = updatedAt;
     }
 
@@ -130,13 +132,7 @@ public class Task {
         this.project = project;
     }
 
-    /*public User getAssignedToUser() {
-        return assignedToUser;
-    }
 
-    public void setAssignedToUser(User assignedToUser) {
-        this.assignedToUser = assignedToUser;
-    }*/
 
     @Override
     public String toString() {
@@ -148,7 +144,6 @@ public class Task {
                 ", createdAt=" + createdAt +
                 ", updatedAt=" + updatedAt +
                 ", project=" + project +
-            //    ", assignedToUser=" + assignedToUser +
                 '}';
     }
 }

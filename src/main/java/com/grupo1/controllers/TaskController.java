@@ -2,7 +2,9 @@ package com.grupo1.controllers;
 
 
 import com.grupo1.entities.Task;
+import com.grupo1.repositories.ProjectRepository;
 import com.grupo1.repositories.TaskRepository;
+import org.springframework.beans.PropertyEditorRegistrar;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,8 +20,12 @@ public class TaskController {
     @Autowired
     private TaskRepository taskRepository;
 
-    public TaskController(TaskRepository taskRepository) {
+    @Autowired
+    private ProjectRepository projectRepository;
+
+    public TaskController(TaskRepository taskRepository, ProjectRepository projectRepository) {
         this.taskRepository = taskRepository;
+        this.projectRepository = projectRepository;
     }
 
 
@@ -60,11 +66,15 @@ public class TaskController {
         Optional<Task> task = taskRepository.findById(id);
         if (task.isPresent()) {
             model.addAttribute("task", task.get());
+            model.addAttribute("projects",projectRepository.findAll());
+            return "task/task-form";
+
         } else {
             model.addAttribute("error", "tarea no encontrada");
         }
-        return "/task/task-detail";
+        return "redirect:/tasks";
     }
+
 
 
 
@@ -72,7 +82,7 @@ public class TaskController {
     @GetMapping("/new")
     public String createForm(Model model) {
         model.addAttribute("task", new Task());
-
+        model.addAttribute("projects", projectRepository.findAll());
         return "task/task-form";
     }
 
