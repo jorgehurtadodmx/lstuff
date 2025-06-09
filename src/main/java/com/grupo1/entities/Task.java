@@ -59,31 +59,6 @@ public class Task {
         this.id = id;
     }
 
-    public String getTitulo() {
-        return title;
-    }
-
-    public void setTitulo(String titulo) {
-        this.title = titulo;
-    }
-
-    public String getDescripcion() {
-        return description;
-    }
-
-    public void setDescripcion(String descripcion) {
-        this.description = descripcion;
-    }
-
-    public Project getProyecto() {
-        return project;
-    }
-
-    public void setProyecto(Project project) {
-        this.project = project;
-    }
-
-
     public String getTitle() {
         return title;
     }
@@ -131,8 +106,6 @@ public class Task {
     public void setProject(Project project) {
         this.project = project;
     }
-
-
 
     @Override
     public String toString() {

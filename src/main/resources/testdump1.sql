@@ -57,3 +57,97 @@ UNLOCK TABLES;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
 -- Dump completed on 2025-05-31 22:46:55
+
+
+--
+-- Table structure for table `users`
+--
+
+DROP TABLE IF EXISTS `users`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `users` (
+  `id_user` binary(16) NOT NULL,
+  `username` varchar(255) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `last_name` varchar(255) NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `password` varchar(255) NOT NULL,
+  `telephone` varchar(255) DEFAULT NULL,
+  `role` enum('ADMIN','USER') NOT NULL,
+  `active` tinyint DEFAULT '1',
+  PRIMARY KEY (`id_user`),
+  UNIQUE KEY `UKkfsp0s1tflm1cwlj8idhqsad0` (`email`),
+  UNIQUE KEY `UKm2dvbwfge291euvmk6vkkocao` (`username`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `users`
+--
+
+LOCK TABLES `users` WRITE;
+/*!40000 ALTER TABLE `users` DISABLE KEYS */;
+INSERT INTO `users` VALUES (_binary 'Šª{¿Õ±DZ´|T\îv›','user3','user3name','hurtado3','correo@gmail.com','$2a$10$5bpVyAqnF3v5iymdHDkU9er9mQ7TKeEzPhRGz1ikso4nJkb3W1yse','123123123','USER',NULL),(_binary '\ÄÞ¡\ÔpLš‡òOCþ¾¥','user4','name4','hurtado3','uewwu@gmail.com','$2a$10$MtnMe.Z82m44T.OFHsjwHOU/1tB1OrZ..KvkYC4gFH8JoHrV09Eou','123123123','USER',NULL),(_binary 'Û³®¥„/Hž¶\Çùem+G','user14','name14','ape14','user14@gmail.com','$2a$10$BOrOwt0dSKnKodL.tWQYGO8ycPTLdY0FziyerHZNZL/f2NYPirsv.','123123123','USER',1);
+/*!40000 ALTER TABLE `users` ENABLE KEYS */;
+UNLOCK TABLES;
+
+
+
+--
+-- Table structure for table `project`
+--
+
+DROP TABLE IF EXISTS `project`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `project` (
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `name` varchar(45) DEFAULT NULL,
+  `description` varchar(400) DEFAULT NULL,
+  `start_date` date DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb3;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `project`
+--
+
+LOCK TABLES `project` WRITE;
+/*!40000 ALTER TABLE `project` DISABLE KEYS */;
+INSERT INTO `project` VALUES (1,'superproject1','desdcripcionproyecto','2025-06-04');
+/*!40000 ALTER TABLE `project` ENABLE KEYS */;
+UNLOCK TABLES;
+
+-
+-- Table structure for table `tasks`
+--
+
+DROP TABLE IF EXISTS `tasks`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `tasks` (
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `title` varchar(45) NOT NULL,
+  `description` varchar(400) DEFAULT NULL,
+  `due_date` date NOT NULL,
+  `created_at` date DEFAULT NULL,
+  `updated_at` date DEFAULT NULL,
+  `project_id` bigint DEFAULT NULL,
+  `assigned_to_user_id` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `FK8nu5990apg85bfugo0evjpyx1` (`project_id`),
+  CONSTRAINT `FK8nu5990apg85bfugo0evjpyx1` FOREIGN KEY (`project_id`) REFERENCES `project` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb3;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `tasks`
+--
+
+LOCK TABLES `tasks` WRITE;
+/*!40000 ALTER TABLE `tasks` DISABLE KEYS */;
+INSERT INTO `tasks` VALUES (1,'tarea1name','tarea1desc','2030-01-01','2028-01-01','2030-01-01',1,'1001'),(2,'oooo','desc2','2025-06-05','2025-06-03','2025-06-04',1,'1001');
+/*!40000 ALTER TABLE `tasks` ENABLE KEYS */;
+UNLOCK TABLES;

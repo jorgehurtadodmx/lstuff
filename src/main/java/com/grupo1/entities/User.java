@@ -13,18 +13,18 @@ import java.util.UUID;
 @AllArgsConstructor
 @Builder
 @Entity
-@Table(name = "usuarios")
+@Table(name = "users")
 public class User {
 
     @Id
     @GeneratedValue
-    @Column(name = "idUsuario", columnDefinition = "BINARY(16)")
+    @Column(name = "idUser", columnDefinition = "BINARY(16)")
     private UUID id;
 
-    @Column(name = "nombre", nullable = false)
+    @Column(name = "name", nullable = false)
     private String name;
 
-    @Column(name = "apellido", nullable = false)
+    @Column(name = "last_name", nullable = false)
     private String surname;
 
     @Column(name = "username", unique = true, nullable = false)
@@ -36,10 +36,10 @@ public class User {
     @Column(name = "password", nullable = false)
     private String password; //Contraseña encriptada
 
-    @Column(name = "activo", nullable = false)
+    @Column(name = "active", nullable = false)
     private Boolean active = true; //activar o desactivar usuario
 
-    @Column(name = "telefono")
+    @Column(name = "telephone")
     private String phone;
 
     @Enumerated(EnumType.STRING)//Guardar el Rol como texto

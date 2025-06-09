@@ -12,7 +12,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @Builder
 @Entity
-@Table(name = "proyecto")
+@Table(name = "project")
 public class Project {
 
     @Id
@@ -20,12 +20,12 @@ public class Project {
     private Long id;
 
     @Column(nullable = false)
-    private String nombre;
+    private String name;
 
     @Column(length = 400)
-    private String descripcion;
+    private String description;
 
-    private LocalDate fechaInicio;
+    private LocalDate start_date;
 
-    private Boolean activo;
+    //private Boolean activo;
 }

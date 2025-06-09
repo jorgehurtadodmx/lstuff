@@ -44,14 +44,14 @@
         <thead class="table-dark">
         <tr>
             <th>ID</th>
-            <th>Title</th>
-            <th>Description</th>
-            <th>Due Date</th>
-            <th>Created At</th>
-            <th>Updated At</th>
-            <th>Project</th>
-            <th>Assigned To</th>
-            <th>Actions</th>
+            <th>Titulo</th>
+            <th>Descripcion</th>
+            <th>Fecha fin</th>
+            <th>Creado el</th>
+            <th>Actualizado el</th>
+            <th>Proyecto</th>
+            <th>Asignado a</th>
+            <th>Acciones</th>
         </tr>
         </thead>
         <tbody>
@@ -64,7 +64,7 @@
             <td th:text="${task.dueDate != null ? #temporals.format(task.dueDate, 'dd/MM/yyyy') : 'No due date'}"></td>
             <td th:text="${task.createdAt != null ? #temporals.format(task.createdAt, 'dd/MM/yyyy') : 'No created date'}"></td>
             <td th:text="${task.updatedAt != null ? #temporals.format(task.updatedAt, 'dd/MM/yyyy') : 'Unknown'}"></td>
-            <td th:text="${task.proyecto != null ? task.proyecto.name : 'No project'}"></td>
+            <td th:text="${task.project != null ? task.project.name : 'No project'}"></td>
             <!--<td th:text="${task.assignedToUser != null ? task.assignedToUser.name : 'Unassigned'}"></td>-->
             <td>
                 <div class="d-flex gap-1">
