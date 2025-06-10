@@ -3,16 +3,17 @@ package com.grupo1.entities;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
-@ToString
+@ToString(exclude = "tasks")
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @Entity
-@Table(name = "project")
+@Table(name = "proyectos")
 public class Project {
 
     @Id
@@ -22,10 +23,9 @@ public class Project {
     @Column(nullable = false)
     private String name;
 
-    @Column(length = 400)
+    @Column(length = 500)
     private String description;
 
-    private LocalDate start_date;
-
-    //private Boolean activo;
+    @OneToMany(mappedBy = "project", cascade = CascadeType.ALL)
+    private List<Task> tasks = new ArrayList<>();
 }
