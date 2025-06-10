@@ -1,10 +1,8 @@
 package com.grupo1.controllers;
 
-
 import com.grupo1.entities.Task;
 import com.grupo1.repositories.ProjectRepository;
 import com.grupo1.repositories.TaskRepository;
-import org.springframework.beans.PropertyEditorRegistrar;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -28,7 +26,6 @@ public class TaskController {
         this.projectRepository = projectRepository;
     }
 
-
     @GetMapping
     public String getTasks(Model model) {
         List<Task> tasks = taskRepository.findAll();
@@ -43,9 +40,8 @@ public class TaskController {
         List<Task> tasks = taskRepository.findByTitleContainsIgnoreCase(title);
         model.addAttribute("tasks", tasks);
         model.addAttribute("actualSearch", title);
-        return  "task/task-list";
+        return "task/task-list";
     }
-
 
     //DETALE por ID de task
     //posiblemente convenga que la información de la propia tarea aparezca en la misma VISTA.
@@ -66,7 +62,7 @@ public class TaskController {
         Optional<Task> task = taskRepository.findById(id);
         if (task.isPresent()) {
             model.addAttribute("task", task.get());
-            model.addAttribute("projects",projectRepository.findAll());
+            model.addAttribute("projects", projectRepository.findAll());
             return "task/task-form";
 
         } else {
@@ -74,9 +70,6 @@ public class TaskController {
         }
         return "redirect:/tasks";
     }
-
-
-
 
     //creacion de tareas
     @GetMapping("/new")
@@ -96,7 +89,6 @@ public class TaskController {
     //eliminar producto
     @PostMapping("/{id}/eliminar")
     public String delete(@PathVariable Long id) {
-
 
         taskRepository.deleteById(id);
         return "redirect:/tasks";
