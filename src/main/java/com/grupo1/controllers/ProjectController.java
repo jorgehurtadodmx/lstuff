@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import java.util.List;
 
 @Controller
-@RequestMapping("/projects")
+@RequestMapping("/project")
 public class ProjectController {
 
     @Autowired
@@ -32,7 +32,7 @@ public class ProjectController {
         return "/project/project-list";
     }
 
-    @GetMapping("/new")
+    @GetMapping("/project/new")
     public String createForm(Model model) {
         model.addAttribute("project", new Project());
         return "project/project-form";
