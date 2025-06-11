@@ -1,5 +1,6 @@
 package com.grupo1.entities;
 
+import com.grupo1.enums.UserRole;
 import jakarta.persistence.*;
 import lombok.*;
 import java.util.ArrayList;
@@ -36,6 +37,7 @@ public class User {
     @Column(name = "password", nullable = false)
     private String password; //Contraseña encriptada
 
+    @Builder.Default
     @Column(name = "active", nullable = false)
     private Boolean active = true; //activar o desactivar usuario
 

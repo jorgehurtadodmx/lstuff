@@ -1,7 +1,7 @@
 package com.grupo1.services;
 
 import com.grupo1.entities.User;
-import com.grupo1.entities.UserRole;
+import com.grupo1.enums.UserRole;
 import com.grupo1.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;

@@ -1,4 +1,4 @@
-package com.grupo1.entities;
+package com.grupo1.enums;
 
 public enum UserRole {
     USER,
