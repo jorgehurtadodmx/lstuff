@@ -1,0 +1,5 @@
+<!-- LogoGestor.svg -->
+<svg width="120" height="40" viewBox="0 0 300 100" xmlns="http://www.w3.org/2000/svg">
+    <rect width="300" height="100" fill="#2d89ef" rx="20"/>
+    <text x="50%" y="55%" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="45" dy=".3em">GT</text>
+</svg>

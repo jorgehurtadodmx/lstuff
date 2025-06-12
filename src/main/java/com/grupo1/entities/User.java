@@ -46,7 +46,8 @@ public class User {
 
     @Enumerated(EnumType.STRING)//Guardar el Rol como texto
     @Column(nullable = false)
-    private UserRole role;
+    @Builder.Default
+    private UserRole role = UserRole.USER; //Por defecto el rol es USER
 
     @ManyToMany //varios usuarios pueden pertenecer a varios proyectos y viceversa.
     @JoinTable(name = "user_project")
