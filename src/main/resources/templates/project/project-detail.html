@@ -8,26 +8,11 @@
 
 </head>
 <body>
-    <h1>Detalle del proyecto</h1>
+<h1>Detalle del proyecto</h1>
 
-    <div th:if="${error}">
-        <p th:text="${error}"></p>
-    </div>
-
-<div th:if="${project}">
-    <h2 th:text="${project.name}"></h2>
-    <div class="detail-item">
-        <strong>ID:</strong><span th:text="${project.id}"></span></strong>
-    </div>
-    <div class="detail-item">
-        <strong>Nombre:</strong><span th:text="${project.name}"></span></strong>
-        <br>
-        <strong>Descripción:</strong><span th:text="${project.description}"></span></strong>
-    </div>
-
-
+<div th:if="${error}">
+    <p th:text="${error}"></p>
 </div>
-
 
 </body>
 
