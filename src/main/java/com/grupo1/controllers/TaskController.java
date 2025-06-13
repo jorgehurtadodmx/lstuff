@@ -78,9 +78,9 @@ public class TaskController {
         Task newTask = new Task();
         if (projectId != null) {
             Optional<Project> project = projectRepository.findById(projectId);
-            project.ifPresent(newTask::setProject);
+          project.ifPresent(newTask::setProject);
         }
-        model.addAttribute("task", new Task());
+        model.addAttribute("task", newTask);
         model.addAttribute("projects", projectRepository.findAll());
         return "task/task-form";
     }
@@ -88,6 +88,11 @@ public class TaskController {
     //crea o actualiza tarea
     @PostMapping("/save")
     public String saveForm(@ModelAttribute Task task) {
+        if (task.getProject() != null && task.getProject().getId() != null) {
+            Project project = projectRepository.findById(task.getProject().getId()).orElseThrow(
+                    () -> new IllegalArgumentException("Proyecto no encontrado"));
+            task.setProject(project);
+        }
         taskRepository.save(task);
         return "redirect:/tasks";
     }
