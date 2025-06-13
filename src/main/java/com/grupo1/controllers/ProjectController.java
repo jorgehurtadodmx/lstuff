@@ -33,19 +33,18 @@ public class ProjectController {
         this.userRepository = userRepository;
     }
 
+    //se dejan de mostrar todos, para solo mostrar los que pertenecen al usuario
     @GetMapping
     public String getProjects(Model model, Principal principal) {
-        List<Project> projects = projectRepository.findAll();
-
-
+        //List<Project> projects = projectRepository.findAll();
         String loggedUsername = principal.getName();
 
-        // Acceder correctamente al usuario desde el Optional
+
         User user = userRepository.findByUsername(loggedUsername)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
-
+        List<Project> userProjects = user.getProjects();
         model.addAttribute("loggedUser", user);
-        model.addAttribute("projects", projects);
+        model.addAttribute("projects", userProjects);
         return "/project/project-list";
     }
 

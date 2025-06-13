@@ -88,17 +88,6 @@ public class TaskController {
         return "task/task-form";
     }
 
-    //crea o actualiza tarea
-    /*@PostMapping("/save") lambda
-    public String saveForm(@ModelAttribute Task task) {
-        if (task.getProject() != null && task.getProject().getId() != null) {
-            Project project = projectRepository.findById(task.getProject().getId()).orElseThrow(
-                    () -> new IllegalArgumentException("Proyecto no encontrado"));
-            task.setProject(project);
-        }
-        taskRepository.save(task);
-        return "redirect:/tasks";
-    }*/
 
     @PostMapping("/save")
     public String saveForm(@ModelAttribute Task task) {
