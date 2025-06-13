@@ -1,9 +1,10 @@
 package com.grupo1.entities;
 
+import com.grupo1.enums.Priority;
+import com.grupo1.enums.TaskStatus;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
-import java.util.Date;
 
 @Entity
 @Table(name = "tasks")
@@ -27,6 +28,12 @@ public class Task {
     //updated_at
     private LocalDate updatedAt;
 
+    @Column(name = "status")
+    @Enumerated(EnumType.STRING)
+    private TaskStatus taskStatus = TaskStatus.ABIERTA;
+
+    private Priority priority;
+
     @ManyToOne
     @JoinColumn(name = "project_id", nullable = false)
     private Project project;
@@ -37,17 +44,17 @@ public class Task {
 
     public Task() {}
 
-    public Task(Long id, String title, String description, LocalDate dueDate, LocalDate createdAt, LocalDate updatedAt, Project project
 
-    ) {
+    public Task(Long id, String title, String description, LocalDate dueDate, LocalDate createdAt, LocalDate updatedAt, Priority priority, TaskStatus taskStatus, Project project) {
         this.id = id;
         this.title = title;
         this.description = description;
         this.dueDate = dueDate;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
+        this.priority = priority;
+        this.taskStatus = taskStatus;
         this.project = project;
-       // this.assignedToUser = assignedToUser;
     }
 
 
@@ -107,6 +114,15 @@ public class Task {
         this.project = project;
     }
 
+
+    public Priority getPriority() {
+        return priority;
+    }
+
+    public void setPriority(Priority priority) {
+        this.priority = priority;
+    }
+
     @Override
     public String toString() {
         return "Task{" +
@@ -116,7 +132,17 @@ public class Task {
                 ", dueDate=" + dueDate +
                 ", createdAt=" + createdAt +
                 ", updatedAt=" + updatedAt +
+                ", taskStatus=" + taskStatus +
+                ", priority=" + priority +
                 ", project=" + project +
                 '}';
+    }
+
+    public TaskStatus getTaskStatus() {
+        return taskStatus;
+    }
+
+    public void setTaskStatus(TaskStatus taskStatus) {
+        this.taskStatus = taskStatus;
     }
 }

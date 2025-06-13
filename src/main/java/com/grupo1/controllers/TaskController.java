@@ -2,6 +2,7 @@ package com.grupo1.controllers;
 
 import com.grupo1.entities.Project;
 import com.grupo1.entities.Task;
+import com.grupo1.enums.TaskStatus;
 import com.grupo1.repositories.ProjectRepository;
 import com.grupo1.repositories.TaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,6 +64,7 @@ public class TaskController {
         Optional<Task> task = taskRepository.findById(id);
         if (task.isPresent()) {
             model.addAttribute("task", task.get());
+            model.addAttribute("taskStatus", TaskStatus.values());
             model.addAttribute("projects", projectRepository.findAll());
             return "task/task-form";
 
@@ -81,17 +83,32 @@ public class TaskController {
           project.ifPresent(newTask::setProject);
         }
         model.addAttribute("task", newTask);
+        model.addAttribute("taskStatus", TaskStatus.values());
         model.addAttribute("projects", projectRepository.findAll());
         return "task/task-form";
     }
 
     //crea o actualiza tarea
-    @PostMapping("/save")
+    /*@PostMapping("/save") lambda
     public String saveForm(@ModelAttribute Task task) {
         if (task.getProject() != null && task.getProject().getId() != null) {
             Project project = projectRepository.findById(task.getProject().getId()).orElseThrow(
                     () -> new IllegalArgumentException("Proyecto no encontrado"));
             task.setProject(project);
+        }
+        taskRepository.save(task);
+        return "redirect:/tasks";
+    }*/
+
+    @PostMapping("/save")
+    public String saveForm(@ModelAttribute Task task) {
+        Long projectId =  (task.getProject() != null) ? task.getProject().getId() : null;
+        if (projectId != null) {
+            Optional<Project> optionalProject = projectRepository.findById(projectId);
+            if (optionalProject.isEmpty()) {
+                throw new IllegalArgumentException("Proyecto no encontrado");
+            }
+            task.setProject(optionalProject.get());
         }
         taskRepository.save(task);
         return "redirect:/tasks";

@@ -10,24 +10,24 @@
 
 <div class="container mt-4">
 
-    <h1 class="mb-4">Project List</h1>
+    <h1 class="mb-4">Lista de proyectos</h1>
 
-    <!-- MESSAGE IF NO PROJECTS FOUND -->
+    <!--excepcion o custom si no hay proyecto -->
     <div th:if="${projects.isEmpty()}" class="alert alert-warning">
         <p class="mb-0">No projects available at the moment.</p>
     </div>
 
     <div class="mb-3">
-        <a class="btn btn-success" th:href="@{/projects/new}">+ New Project</a>
+        <a class="btn btn-success" th:href="@{/projects/new}">+ Nuevo proyecto</a>
     </div>
 
     <h1>Hola, <span th:text="${loggedUser.name}">Usuario</span></h1>
-    <!-- PROJECTS TABLE -->
+    <!-- TABLA PROYECTOS para debug -->
     <div th:unless="${projects.isEmpty()}" class="table-responsive">
         <table class="table table-bordered table-striped table-hover">
             <thead class="table-dark">
             <tr>
-                <th>ID</th>
+                <th>ID(debug)</th>
                 <th>Nombre</th>
                 <th>Descripcion</th>
                 <th>Tareas asignadas a proyecto</th>
