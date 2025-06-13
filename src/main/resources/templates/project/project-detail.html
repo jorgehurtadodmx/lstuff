@@ -3,17 +3,40 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Detalle del projecto</title>
+    <title>Detalle de proyecto</title>
     <link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}">
-
 </head>
 <body>
-<h1>Detalle del proyecto</h1>
+<div class="container mt-4" th:if="${project}">
+    <h2 th:text="${project.name}">Nombre del Proyecto</h2>
 
-<div th:if="${error}">
-    <p th:text="${error}"></p>
+    <div class="detalle-item">
+        <strong>ID:</strong> <span th:text="${project.id}"></span>
+    </div>
+    <div class="detalle-item">
+        <strong>Descripción:</strong> <span th:text="${project.description}"></span>
+    </div>
+    <div class="detalle-item">
+        <strong>Fecha de inicio:</strong> <span th:text="${project.startDate}"></span>
+    </div>
+
+    <div class="detalle-item" th:if="${project.users}">
+        <strong>Usuarios asignados:</strong>
+        <ul>
+            <li th:each="user : ${project.users}" th:text="${user.username}"></li>
+        </ul>
+    </div>
+
+    <div class="detalle-item" th:if="${project.tasks}">
+        <strong>Tareas del proyecto:</strong>
+        <ul>
+            <li th:each="task : ${project.tasks}" th:text="${task.title}"></li>
+        </ul>
+    </div>
+
+    <a th:href="@{/tasks/new(projectId=${project.id})}" class="btn btn-success">Crear nueva tarea para este proyecto</a>
+
+    <a th:href="@{/projects}" class="btn btn-secondary mt-3">Volver a la lista</a>
 </div>
-
 </body>
-
 </html>

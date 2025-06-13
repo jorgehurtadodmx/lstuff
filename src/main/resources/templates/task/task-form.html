@@ -34,27 +34,27 @@
 
    <!-- hsta que no se añadan los otros dates, la edicion de una puede provocar un nulo en las no editadas.-->
     <!-- Fecha 2 -->
-    <div>
+ <!--   <div>
         <label for="createdAt">Fecha de creacion tarea:</label>
         <input type="date" id="createdAt" name="createdAt"
                th:value="${task.createdAt != null} ? ${task.createdAt} : ''" />
-    </div>
+    </div>-->
 
     <!-- Fecha 3 -->
-    <div>
+   <!-- <div>
         <label for="updatedAt">Fecha de actualizacion tarea:</label>
         <input type="date" id="updatedAt" name="updatedAt"
                th:value="${task.updatedAt != null} ? ${task.updatedAt} : ''" />
-    </div>
+    </div>-->
 
     <!-- Proyecto -->
-    <div>
+   <!-- <div>
         <label for="project">Proyecto:</label>
         <select id="project" th:field="*{project}" required>
             <option value="">-- Selecciona un proyecto --</option>
             <option th:each="proj : ${projects}" th:value="${proj.id}" th:text="${proj.name}"></option>
         </select>
-    </div>
+    </div>-->
     <br>
 
     <!-- Botones -->

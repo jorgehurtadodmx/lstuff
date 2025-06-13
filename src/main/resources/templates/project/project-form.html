@@ -1,11 +1,29 @@
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Document</title>
+    <title>Formulario de Proyecto</title>
 </head>
 <body>
-<p>Formulario proyecto</p>
+
+<h1 th:text="${project.id} == null ? 'Crear Proyecto' : 'Editar Proyecto'"></h1>
+
+<form th:action="@{/projects/save}" th:object="${project}" method="post">
+    <input type="hidden" th:field="*{id}" />
+
+    <label>Nombre del proyecto:</label>
+    <input type="text" th:field="*{name}" required />
+    <br/>
+
+    <label>Descripción:</label>
+    <textarea th:field="*{description}" rows="5" cols="40"></textarea>
+    <br/>
+    <label>Fecha de inicio:</label>
+    <input type="date" th:field="*{startDate}" />
+    <br/>
+    <button type="submit">Guardar</button>
+</form>
+
+<a href="/projects">Volver a la lista</a>
+
 </body>
 </html>

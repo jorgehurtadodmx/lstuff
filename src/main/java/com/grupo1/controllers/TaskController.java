@@ -1,5 +1,6 @@
 package com.grupo1.controllers;
 
+import com.grupo1.entities.Project;
 import com.grupo1.entities.Task;
 import com.grupo1.repositories.ProjectRepository;
 import com.grupo1.repositories.TaskRepository;
@@ -73,7 +74,12 @@ public class TaskController {
 
     //creacion de tareas
     @GetMapping("/new")
-    public String createForm(Model model) {
+    public String createTaskFromProject(@RequestParam(name = "projectId", required = false) Long projectId, Model model) {
+        Task newTask = new Task();
+        if (projectId != null) {
+            Optional<Project> project = projectRepository.findById(projectId);
+            project.ifPresent(newTask::setProject);
+        }
         model.addAttribute("task", new Task());
         model.addAttribute("projects", projectRepository.findAll());
         return "task/task-form";
