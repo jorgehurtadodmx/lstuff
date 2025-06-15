@@ -59,7 +59,11 @@ public class ProjectController {
 
     // Formulario para crear nuevo proyecto
     @GetMapping("/new")
-    public String createForm(Model model) {
+    public String createForm(Model model, Principal principal) {
+        String username = principal.getName();
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+        model.addAttribute("loggedUser", user);
         model.addAttribute("project", new Project());
         return "/project/project-form";
     }
@@ -106,9 +110,13 @@ public class ProjectController {
 
     // Formulario para editar proyecto existente
     @GetMapping("/{id}/editar")
-    public String editar(Model model, @PathVariable Long id) {
+    public String editar(Model model, @PathVariable Long id, Principal principal) {
+        String loggedUsername = principal.getName();
+        User user = userRepository.findByUsername(loggedUsername)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
         Optional<Project> project = projectRepository.findById(id);
         if (project.isPresent()) {
+            model.addAttribute("loggedUser", user);
             model.addAttribute("project", project.get());
             return "/project/project-form";
         } else {
@@ -120,7 +128,19 @@ public class ProjectController {
     // Eliminar proyecto
     @PostMapping("/{id}/eliminar")
     public String delete(@PathVariable Long id) {
-        projectRepository.deleteById(id);
+        Project project = projectRepository.findById(id).orElseThrow(
+                () -> new IllegalArgumentException("Proyecto no encontrado"));
+
+        for (User user : project.getUsers()) {
+            user.getProjects().remove(project);
+        }
+
+        project.getUsers().clear();
+
+        projectRepository.delete(project);
+
+
+       // projectRepository.deleteById(id);
         return "redirect:/projects";
     }
 }

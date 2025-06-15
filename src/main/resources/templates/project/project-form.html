@@ -20,6 +20,8 @@
     <label>Fecha de inicio:</label>
     <input type="date" th:field="*{startDate}" />
     <br/>
+    <label>Jefe de proyecto:</label>
+    <span th:text="${loggedUser.name}">Usuario</span>
     <button type="submit">Guardar</button>
 </form>
 
