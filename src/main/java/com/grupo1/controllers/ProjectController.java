@@ -36,10 +36,7 @@ public class ProjectController {
     //se dejan de mostrar todos, para solo mostrar los que pertenecen al usuario
     @GetMapping
     public String getProjects(Model model, Principal principal) {
-        //List<Project> projects = projectRepository.findAll();
         String loggedUsername = principal.getName();
-
-
         User user = userRepository.findByUsername(loggedUsername)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
         List<Project> userProjects = user.getProjects();
@@ -69,23 +66,42 @@ public class ProjectController {
 
     // Guardar proyecto (nuevo o editado)
     @PostMapping("/save")
-    public String saveForm(@ModelAttribute Project project, Principal principal) {
+    public String saveForm(@ModelAttribute Project newProject, Principal principal) {
         String username = principal.getName();
         Optional<User> userOptional = userRepository.findByUsername(username);
-        if (userOptional.isPresent()) {
-            User user = userOptional.get();
-            //asignar usuario que crea el proyecto, a dicho proyecto automaticamente.
-            //pendiente asociar rango
-            project.getUsers().add(user);
-            user.getProjects().add(project);
-            projectRepository.save(project);
-            userRepository.save(user);
-            return "redirect:/projects";
-        } else {
-            //si no esta autentificado, redirigir
+        if (userOptional.isEmpty()) {
             return "redirect:/login";
         }
 
+        User user = userOptional.get();
+        Project project;
+
+
+        if (newProject.getId() != null) {
+            project = projectRepository.findById(newProject.getId()).orElseThrow(
+                    () -> new IllegalArgumentException("proyecto no encontrado"));
+            project.setName(newProject.getName());
+            project.setDescription(newProject.getDescription());
+            project.setStartDate(newProject.getStartDate());
+        } else {
+            // Si es nuevo, asignar datos
+            project = newProject;
+        }
+
+        //asignar usuario creador a proyecto
+        if (!project.getUsers().contains(user)) {
+            project.getUsers().add(user);
+        }
+
+       //misma relacion, invertida
+        if (!user.getProjects().contains(project)) {
+            user.getProjects().add(project);
+        }
+
+
+        projectRepository.save(project);
+
+        return "redirect:/projects";
     }
 
     // Formulario para editar proyecto existente
