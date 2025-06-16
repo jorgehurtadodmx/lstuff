@@ -18,6 +18,10 @@
         </a>
         <div class="d-flex">
             <!-- Aquí podrías poner login, nombre usuario o icono -->
+            <div class="text-center mt-5">
+                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#loginModal">Iniciar Sesión</button>
+                <button class="btn btn-outline-secondary ms-2" data-bs-toggle="modal" data-bs-target="#registerModal">Registrarse</button>
+            </div>
         </div>
     </div>
 </nav>
@@ -44,10 +48,10 @@
         </div>
     </div>
 
-    <div class="text-center mt-5">
+  <!--  <div class="text-center mt-5">
         <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#loginModal">Iniciar Sesión</button>
         <button class="btn btn-outline-secondary ms-2" data-bs-toggle="modal" data-bs-target="#registerModal">Registrarse</button>
-    </div>
+    </div>-->
 </main>
 
 <!-- Footer -->
@@ -80,18 +84,24 @@
 <div class="modal fade" id="registerModal" tabindex="-1" aria-labelledby="registerModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
+            <!-- Mostrar error o éxito -->
+            <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
+            <div th:if="${success}" class="alert alert-success" th:text="${success}"></div>
             <form th:action="@{/auth/register}" method="post">
                 <div class="modal-header">
                     <h5 class="modal-title" id="registerModalLabel">Crear cuenta</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
+                    <input type="text" name="name" class="form-control mb-3" placeholder="Nombre" required />
+                    <input type="text" name="surname" class="form-control mb-3" placeholder="Apellido" required />
+                    <input type="text" name="phone" class="form-control mb-3" placeholder="Teléfono" required />
                     <input type="text" name="username" class="form-control mb-3" placeholder="Usuario" required />
                     <input type="email" name="email" class="form-control mb-3" placeholder="Correo electrónico" required />
                     <input type="password" name="password" class="form-control mb-3" placeholder="Contraseña" required />
-                </div>
-                <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary">Registrarse</button>
+                    <input type="password" name="confirmPassword" class="form-control mb-3" placeholder="Repetir Contraseña" required />
+                    <button type="submit" class="btn btn-primary">Registrar</button>
+
                 </div>
             </form>
         </div>
