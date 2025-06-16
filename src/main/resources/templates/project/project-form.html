@@ -1,45 +1,31 @@
 <!DOCTYPE html>
-<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Formulario de proyecto</title>
+    <title>Formulario de Proyecto</title>
 </head>
 <body>
 
-<h1>
-    <h1 th:if="${project.id != null}">
-        Modificar proyecto <span th:text="${project.id}"></span>
-    </h1>
-    <h1 th:if="${project.id == null}">Crear nuevo proyecto</h1>
+<h1 th:text="${project.id} == null ? 'Crear Proyecto' : 'Editar Proyecto'"></h1>
 
-    <form th:action="@{/projects/save}" th:object="${project}" method="post">
-        <input type="hidden" th:field="*{id}"/>
+<form th:action="@{/projects/save}" th:object="${project}" method="post">
+    <input type="hidden" th:field="*{id}" />
 
-        <div>
-            <label for="title">Nombre del proyecto:</label>
-            <input type="text" id="title" th:field="*{title}" placeholder="Ingrese el nombre" required/>
-        </div>
-        <br>
+    <label>Nombre del proyecto:</label>
+    <input type="text" th:field="*{name}" required />
+    <br/>
 
-        <div>
-            <label for="description">Descripción:</label>
-            <textarea id="description" th:field="*{description}" placeholder="Descripción del proyecto"
-                      rows="10"></textarea>
-        </div>
-        <br>
-        <div>
-            <label for="createdAt">Fecha de creacion del proyecto:</label>
-            <input type="date" id="createdAt" name="createdAt"
-                   th:value="${task.createdAt != null} ? ${task.createdAt} : ''"/>
-        </div>
-        <br>
-        <div>
-            <a th:href="@{/tasks}">Guardar</a>
-            <button type="submit">
-                <span th:text="${task.id != null ? 'Actualizar' : 'Guardar'}"></span>
-            </button>
-        </div>
-    </form>
+    <label>Descripción:</label>
+    <textarea th:field="*{description}" rows="5" cols="40"></textarea>
+    <br/>
+    <label>Fecha de inicio:</label>
+    <input type="date" th:field="*{startDate}" />
+    <br/>
+    <label>Jefe de proyecto:</label>
+    <span th:text="${loggedUser.name}">Usuario</span>
+    <button type="submit">Guardar</button>
+</form>
+
+<a href="/projects">Volver a la lista</a>
 
 </body>
 </html>

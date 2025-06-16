@@ -1,14 +1,12 @@
 package com.grupo1.repositories;
 
 import com.grupo1.entities.Project;
+import com.grupo1.entities.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface ProjectRepository extends JpaRepository<Project, Long> {
-
-    //Project findByNombreIgnoreCase(String nombre);
-
-  //  List<Project> findByNombreContainsIgnoreCase(String nombre);
-
+    List<Project> findByUsersUsername(String username);
 }

@@ -32,31 +32,13 @@
                th:value="${task.dueDate != null} ? ${task.dueDate} : ''" />
     </div>
 
-   <!-- hsta que no se añadan los otros dates, la edicion de una puede provocar un nulo en las no editadas.-->
-    <!-- Fecha 2 -->
+    <br>
     <div>
-        <label for="createdAt">Fecha de creacion tarea:</label>
-        <input type="date" id="createdAt" name="createdAt"
-               th:value="${task.createdAt != null} ? ${task.createdAt} : ''" />
-    </div>
-
-    <!-- Fecha 3 -->
-    <div>
-        <label for="updatedAt">Fecha de actualizacion tarea:</label>
-        <input type="date" id="updatedAt" name="updatedAt"
-               th:value="${task.updatedAt != null} ? ${task.updatedAt} : ''" />
-    </div>
-
-    <!-- Proyecto -->
-    <div>
-        <label for="project">Proyecto:</label>
-        <select id="project" th:field="*{project}" required>
-            <option value="">-- Selecciona un proyecto --</option>
-            <option th:each="proj : ${projects}" th:value="${proj.id}" th:text="${proj.name}"></option>
+        <label>Estado:</label>
+        <select id="taskStatus" th:field="*{taskStatus}">
+            <option th:each="status : ${taskStatus}" th:value="${status}" th:text="${status}"></option>
         </select>
     </div>
-    <br>
-
     <!-- Botones -->
     <div>
         <a th:href="@{/tasks}">Cancelar</a>
@@ -64,6 +46,8 @@
             <span th:text="${task.id != null ? 'Actualizar' : 'Guardar'}"></span>
         </button>
     </div>
+    <input type="hidden" th:field="*{project.id}" />
+
 </form>
 
 </body>

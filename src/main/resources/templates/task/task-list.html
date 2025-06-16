@@ -8,10 +8,10 @@
 </head>
 <body>
 
-<!-- SEARCH BY TITLE -->
+<!-- Filtro, actualmente solo title -->
 <div class="card mb-4">
     <div class="card-body">
-        <h3 class="card-title">Search by title:</h3>
+        <h3 class="card-title">Buscar tarea por titulo:</h3>
         <form th:action="@{/tasks/buscar}" method="get" class="d-flex gap-2 mb-3">
             <input type="text"
                    name="title"
@@ -34,9 +34,11 @@
     <p class="mb-0">No tasks available at the moment.</p>
 </div>
 
+<!--
+eliminar, irrelevante
 <div class="mb-3">
     <a class="btn btn-success" th:href="@{/tasks/new}">+ New task</a>
-</div>
+</div>-->
 
 <!-- TASKS TABLE, PENDIGN STYLE -->
 <div th:unless="${tasks.isEmpty()}" class="table-responsive">
@@ -46,6 +48,7 @@
             <th>ID</th>
             <th>Titulo</th>
             <th>Descripcion</th>
+            <th>Estado</th>
             <th>Fecha fin</th>
             <th>Creado el</th>
             <th>Actualizado el</th>
@@ -59,19 +62,24 @@
             <td th:text="${task.id}"></td>
             <td th:text="${task.title}"></td>
             <td th:text="${task.description}"></td>
-            <p>Valor dueDate: <span th:text="${task.dueDate}">No hay fecha</span></p>
+            <td th:text="${task.taskStatus}"></td>
+            <p>Valor dueDate (debug): <span th:text="${task.dueDate}">No hay fecha</span></p>
 
-            <td th:text="${task.dueDate != null ? #temporals.format(task.dueDate, 'dd/MM/yyyy') : 'No due date'}"></td>
-            <td th:text="${task.createdAt != null ? #temporals.format(task.createdAt, 'dd/MM/yyyy') : 'No created date'}"></td>
-            <td th:text="${task.updatedAt != null ? #temporals.format(task.updatedAt, 'dd/MM/yyyy') : 'Unknown'}"></td>
-            <td th:text="${task.project != null ? task.project.name : 'No project'}"></td>
+            <td th:text="${task.dueDate != null ? #temporals.format(task.dueDate, 'dd/MM/yyyy') : 'Sin fecha de finalización'}"></td>
+            <td th:text="${task.createdAt != null ? #temporals.format(task.createdAt, 'dd/MM/yyyy') : 'Sin fecha de creación'}"></td>
+            <td th:text="${task.updatedAt != null ? #temporals.format(task.updatedAt, 'dd/MM/yyyy') : 'Sin fecha de actualización'}"></td>
+            <!--<td th:text="${task.project != null ? task.project.name : 'No pertenece a un proyecto'}"></td>-->
+            <td>
+                <a th:if="${task.project != null}" th:href="@{/projects/{id}(id=${task.project.id})}" th:text="${task.project.name}"></a>
+                <span th:if="${task.project == null}">No pertenece a un proyecto</span>
+            </td>
             <!--<td th:text="${task.assignedToUser != null ? task.assignedToUser.name : 'Unassigned'}"></td>-->
             <td>
                 <div class="d-flex gap-1">
-                    <a th:href="@{/tasks/{id}(id=${task.id})}" class="btn btn-primary btn-sm">Details</a>
-                    <a th:href="@{/tasks/{id}/editar(id=${task.id})}" class="btn btn-warning btn-sm">Edit</a>
+                    <a th:href="@{/tasks/{id}(id=${task.id})}" class="btn btn-primary btn-sm">Detalle</a>
+                    <a th:href="@{/tasks/{id}/editar(id=${task.id})}" class="btn btn-warning btn-sm">Editar</a>
                     <form th:action="@{/tasks/tareas/{id}/eliminar(id=${task.id})}" method="post">
-                        <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                        <button type="submit" class="btn btn-danger btn-sm">Borrar</button>
                     </form>
                 </div>
             </td>
