@@ -44,8 +44,8 @@
                 <td>
                 <ul th:if="${project.tasks != null}">
                     <li th:each="task, stat : ${project.tasks}"
-                        th:if="${stat.index < 3}"
-                        th:text="${task.title}">
+                        th:if="${stat.index < 3}">
+                        <a th:href="@{/tasks/{id}(id=${task.id})}"  th:text="${task.title}"></a>
                     </li>
                 </ul></td>
                 <td>

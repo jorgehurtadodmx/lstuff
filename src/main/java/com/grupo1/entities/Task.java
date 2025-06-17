@@ -38,9 +38,6 @@ public class Task {
     @JoinColumn(name = "project_id", nullable = false)
     private Project project;
 
-    /*@ManyToOne
-    @JoinColumn(name = "assigned_to_user_id", columnDefinition = "BINARY(16)")
-    private User assignedToUser;*/
 
     public Task() {}
 

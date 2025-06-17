@@ -2,14 +2,19 @@ package com.grupo1.controllers;
 
 import com.grupo1.entities.Project;
 import com.grupo1.entities.Task;
+import com.grupo1.entities.User;
 import com.grupo1.enums.TaskStatus;
 import com.grupo1.repositories.ProjectRepository;
 import com.grupo1.repositories.TaskRepository;
+import com.grupo1.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,15 +28,30 @@ public class TaskController {
     @Autowired
     private ProjectRepository projectRepository;
 
+    @Autowired
+    private UserRepository userRepository;
+
     public TaskController(TaskRepository taskRepository, ProjectRepository projectRepository) {
         this.taskRepository = taskRepository;
         this.projectRepository = projectRepository;
     }
 
     @GetMapping
-    public String getTasks(Model model) {
-        List<Task> tasks = taskRepository.findAll();
-        model.addAttribute("tasks", tasks);
+    public String getTasks(Model model, Principal principal) {
+        String username = principal.getName();
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado"));
+
+        List<Project> userProjects = user.getProjects();
+
+        List<Task> userTasks = new ArrayList<>();
+        for (Project project : userProjects) {
+            userTasks.addAll(project.getTasks());
+        }
+
+        model.addAttribute("loggedUser", user);
+        model.addAttribute("tasks", userTasks);
+
         return "/task/task-list";
     }
 
