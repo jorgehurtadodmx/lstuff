@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 
 @Controller
@@ -108,14 +109,16 @@ public class ProjectController {
         return "redirect:/projects";
     }
 
-    // Formulario para editar proyecto existente
+
     @GetMapping("/{id}/editar")
     public String editar(Model model, @PathVariable Long id, Principal principal) {
         String loggedUsername = principal.getName();
         User user = userRepository.findByUsername(loggedUsername)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
         Optional<Project> project = projectRepository.findById(id);
+        List<User> allUsers = userRepository.findAll();
         if (project.isPresent()) {
+            model.addAttribute("allUsers", allUsers);
             model.addAttribute("loggedUser", user);
             model.addAttribute("project", project.get());
             return "/project/project-form";
@@ -142,5 +145,21 @@ public class ProjectController {
 
        // projectRepository.deleteById(id);
         return "redirect:/projects";
+    }
+
+    @PostMapping("/{id}/addUser")
+    public String addUserToProject(@PathVariable Long id, @RequestParam UUID userId, Principal principal) {
+        Project project = projectRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Proyecto no encontrado"));
+
+        User addedUser = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("Usuario no encontrado"));
+        //evitar que se pueda añadir a si mismo y a ya existentes hecho en vista
+        //si no lo contiene ya, añadir usuario seleccionado al proyecto
+
+        if (!project.getUsers().contains(addedUser)) {
+            project.getUsers().add(addedUser);
+            addedUser.getProjects().add(project);
+            projectRepository.save(project);
+        }
+        return "redirect:/projects/" + id;
     }
 }

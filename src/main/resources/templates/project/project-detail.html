@@ -26,7 +26,9 @@
             <li th:each="user : ${project.users}" th:text="${user.username}"></li>
         </ul>
     </div>
-
+    <div class="detalle-item">
+        <strong>Proyecto creado por:</strong> <span th:text="${project.users.get(0).username}"></span>
+    </div>
     <div class="detalle-item" th:if="${project.tasks}">
         <strong>Tareas del proyecto:</strong>
         <ul>
