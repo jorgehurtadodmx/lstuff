@@ -76,7 +76,11 @@
                 </div>
                 <div class="modal-body">
                     <input type="text" name="username" class="form-control mb-3" placeholder="Usuario" required />
-                    <input type="password" name="password" class="form-control mb-3" placeholder="Contraseña" required />
+                    <input id="loginPassword" type="password" name="password" class="form-control mb-1" placeholder="Contraseña" required />
+                    <div class="form-check mt-3 mb-3">
+                        <input class="form-check-input" type="checkbox" id="showLoginPassword">
+                        <label class="form-check-label" for="showLoginPassword">Mostrar contraseña</label>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="submit" class="btn btn-primary">Entrar</button>
@@ -86,11 +90,11 @@
     </div>
 </div>
 
+
 <!-- Modal Registro -->
 <div class="modal fade" id="registerModal" tabindex="-1" aria-labelledby="registerModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
-            <!-- Mostrar error o éxito -->
             <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
             <div th:if="${success}" class="alert alert-success" th:text="${success}"></div>
             <form th:action="@{/auth/register}" method="post" th:object="${user}">
@@ -104,8 +108,14 @@
                     <input type="text" th:field="*{phone}" class="form-control mb-3" placeholder="Teléfono" required />
                     <input type="text" th:field="*{username}" class="form-control mb-3" placeholder="Usuario" required />
                     <input type="email" th:field="*{email}" class="form-control mb-3" placeholder="Correo electrónico" required />
-                    <input type="password" th:field="*{password}" class="form-control mb-3" placeholder="Contraseña" required />
-                    <input type="password" name="confirmPassword" class="form-control mb-3" placeholder="Repetir Contraseña" required />
+                    <input id="registerPassword" type="password" th:field="*{password}" class="form-control mb-1" placeholder="Contraseña" required />
+                    <input id="registerConfirmPassword" type="password" name="confirmPassword" class="form-control mb-3" placeholder="Repetir Contraseña" required />
+                    <div class="form-check mb-3">
+                        <input class="form-check-input" type="checkbox" id="showRegisterPassword">
+                        <!--Si queremos que se vea el borde de checkbox en negro-->
+                        <!--style="border: 1px solid; cursor: pointer;"-->
+                        <label class="form-check-label" for="showRegisterPassword">Mostrar contraseña</label>
+                    </div>
                     <button type="submit" class="btn btn-primary">Registrar</button>
                 </div>
             </form>
@@ -134,6 +144,36 @@
         if (showRegister) {
             const registerModal = new bootstrap.Modal(document.getElementById('registerModal'));
             registerModal.show();
+        }
+    });
+    /*]]>*/
+</script>
+
+<!--Mostrar u ocultar contraseñas en los formularios de login y registro-->
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    document.addEventListener("DOMContentLoaded", function () {
+        // Mostrar/Ocultar contraseña Login
+        const loginCheckbox = document.getElementById('showLoginPassword');
+        const loginPassword = document.getElementById('loginPassword');
+        if(loginCheckbox && loginPassword) {
+            loginCheckbox.addEventListener('change', function () {
+                loginPassword.type = this.checked ? 'text' : 'password';
+            });
+        }
+
+        // Mostrar/Ocultar contraseña Registro
+        const registerCheckbox = document.getElementById('showRegisterPassword');
+        const registerPassword = document.getElementById('registerPassword');
+        if(registerCheckbox && registerPassword) {
+            registerCheckbox.addEventListener('change', function () {
+                registerPassword.type = this.checked ? 'text' : 'password';
+                // También mostrar/ocultar confirmPassword en registro
+                const registerConfirm = document.getElementById('registerConfirmPassword');
+                if(registerConfirm) {
+                    registerConfirm.type = this.checked ? 'text' : 'password';
+                }
+            });
         }
     });
     /*]]>*/
