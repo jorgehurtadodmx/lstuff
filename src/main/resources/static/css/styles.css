@@ -6,6 +6,10 @@
   width: auto;
 }
 
+/* Color azul del logo */
+.color-gestortic {
+  color: #2e27de;
+}
 
 /* Estilo base limpio */
 body {

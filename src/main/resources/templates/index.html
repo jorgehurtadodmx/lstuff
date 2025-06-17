@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="icon" th:href="@{/favicon.ico}" />
     <link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" />
+    <link rel="stylesheet" th:href="@{/webjars/font-awesome/css/all.css}">
     <link rel="stylesheet" th:href="@{/css/styles.css}" />
 </head>
 <body class="d-flex flex-column min-vh-100">
@@ -18,10 +19,11 @@
         </a>
         <div class="d-flex">
             <!-- Aquí podrías poner login, nombre usuario o icono -->
-            <div class="text-center mt-5">
-                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#loginModal">Iniciar Sesión</button>
-                <button class="btn btn-outline-secondary ms-2" data-bs-toggle="modal" data-bs-target="#registerModal">Registrarse</button>
+            <div class="d-flex align-items-center">
+                <button class="btn btn-primary me-2" data-bs-toggle="modal" data-bs-target="#loginModal">Iniciar Sesión</button>
+                <button class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#registerModal">Registrarse</button>
             </div>
+
         </div>
     </div>
 </nav>
@@ -48,10 +50,6 @@
         </div>
     </div>
 
-  <!--  <div class="text-center mt-5">
-        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#loginModal">Iniciar Sesión</button>
-        <button class="btn btn-outline-secondary ms-2" data-bs-toggle="modal" data-bs-target="#registerModal">Registrarse</button>
-    </div>-->
 </main>
 
 <!-- Footer -->
@@ -64,6 +62,14 @@
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <form th:action="@{/auth/login}" method="post">
+                <!-- Mostrar mensaje error si login fallido -->
+                <div th:if="${loginError}" class="alert alert-danger">
+                    Usuario o contraseña incorrectos
+                </div>
+                <div th:if="${registeredSuccess}" class="alert alert-success">
+                    Usuario registrado correctamente. Por favor inicia sesión.
+                </div>
+
                 <div class="modal-header">
                     <h5 class="modal-title" id="loginModalLabel">Iniciar Sesión</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
@@ -87,28 +93,53 @@
             <!-- Mostrar error o éxito -->
             <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
             <div th:if="${success}" class="alert alert-success" th:text="${success}"></div>
-            <form th:action="@{/auth/register}" method="post">
+            <form th:action="@{/auth/register}" method="post" th:object="${user}">
                 <div class="modal-header">
                     <h5 class="modal-title" id="registerModalLabel">Crear cuenta</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
-                    <input type="text" name="name" class="form-control mb-3" placeholder="Nombre" required />
-                    <input type="text" name="surname" class="form-control mb-3" placeholder="Apellido" required />
-                    <input type="text" name="phone" class="form-control mb-3" placeholder="Teléfono" required />
-                    <input type="text" name="username" class="form-control mb-3" placeholder="Usuario" required />
-                    <input type="email" name="email" class="form-control mb-3" placeholder="Correo electrónico" required />
-                    <input type="password" name="password" class="form-control mb-3" placeholder="Contraseña" required />
+                    <input type="text" th:field="*{name}" class="form-control mb-3" placeholder="Nombre" required />
+                    <input type="text" th:field="*{surname}" class="form-control mb-3" placeholder="Apellido" required />
+                    <input type="text" th:field="*{phone}" class="form-control mb-3" placeholder="Teléfono" required />
+                    <input type="text" th:field="*{username}" class="form-control mb-3" placeholder="Usuario" required />
+                    <input type="email" th:field="*{email}" class="form-control mb-3" placeholder="Correo electrónico" required />
+                    <input type="password" th:field="*{password}" class="form-control mb-3" placeholder="Contraseña" required />
                     <input type="password" name="confirmPassword" class="form-control mb-3" placeholder="Repetir Contraseña" required />
                     <button type="submit" class="btn btn-primary">Registrar</button>
-
                 </div>
             </form>
         </div>
     </div>
 </div>
 
+
 <!-- Scripts -->
 <script th:src="@{/webjars/bootstrap/js/bootstrap.bundle.min.js}"></script>
+
+<!--/* Si hay un error de login, mostrar el modal */-->
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    document.addEventListener("DOMContentLoaded", function () {
+
+        const loginError = /*[[${loginError}]]*/ false;
+        const registeredSuccess = /*[[${registeredSuccess}]]*/ false;
+
+        if (loginError || registeredSuccess) {
+            const loginModal = new bootstrap.Modal(document.getElementById('loginModal'));
+            loginModal.show();
+        }
+
+        const showRegister = /*[[${showRegisterModal}]]*/ false;
+        if (showRegister) {
+            const registerModal = new bootstrap.Modal(document.getElementById('registerModal'));
+            registerModal.show();
+        }
+    });
+    /*]]>*/
+</script>
+
+
+
 </body>
 </html>

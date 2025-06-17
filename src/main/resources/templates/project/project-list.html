@@ -1,36 +1,76 @@
-<!doctype html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Project List</title>
-    <link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}">
+    <meta charset="UTF-8" />
+    <title>Lista de proyectos</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" th:href="@{/favicon.ico}" />
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" />
+    <link rel="stylesheet" th:href="@{/webjars/font-awesome/css/all.css}">
+    <link rel="stylesheet" th:href="@{/css/styles.css}" />
 </head>
-<body>
+<body class="d-flex flex-column min-vh-100">
 
-<div class="container mt-4">
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm py-3">
+    <div class="container-fluid">
+        <a class="navbar-brand d-flex align-items-center" href="/">
+            <img src="/images/logo.svg" alt="Logo" class="me-2 logo-navbar" />
+        </a>
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
+            <ul class="navbar-nav mb-2 mb-lg-0 align-items-center">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="userDropdown" role="button"
+                       data-bs-toggle="dropdown" aria-expanded="false">
+                        <span class="color-gestortic me-2">Hola, <strong th:text="${loggedUser.name}">Usuario</strong></span>
+                        <i class="fa-solid fa-circle-user color-gestortic fa-2x"></i>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                        <li><a class="dropdown-item text-success" th:href="@{/profile}">
+                            <i class="fa fa-user me-2"></i>Perfil</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li>
+                            <form th:action="@{/logout}" method="post" class="m-0">
+                                <button type="submit" class="dropdown-item text-danger">
+                                    <i class="fa fa-right-from-bracket me-2"></i>Salir</button>
+                            </form>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!-- Contenido principal -->
+<main class="container my-5 text-center flex-grow-1">
 
     <h1 class="mb-4">Lista de proyectos</h1>
 
-    <!--excepcion o custom si no hay proyecto -->
+    <!-- Excepción o mensaje si no hay proyectos -->
     <div th:if="${projects.isEmpty()}" class="alert alert-warning">
         <p class="mb-0">Sin proyectos</p>
     </div>
 
-    <div class="mb-3">
+    <div class="mb-3 text-start">
         <a class="btn btn-success" th:href="@{/projects/new}">+ Nuevo proyecto</a>
     </div>
 
-    <h1>Hola, <span th:text="${loggedUser.name}">Usuario</span></h1>
-    <!-- TABLA PROYECTOS para debug -->
+    <!-- Tabla proyectos para debug -->
     <div th:unless="${projects.isEmpty()}" class="table-responsive">
         <table class="table table-bordered table-striped table-hover">
             <thead class="table-dark">
             <tr>
                 <th>ID(debug)</th>
                 <th>Nombre</th>
-                <th>Descripcion</th>
-                <th>Tareas asignadas a proyecto</th>
+                <th>Descripción</th>
+                <th>Tareas asignadas</th>
                 <th>Tareas</th>
                 <th>Acciones</th>
             </tr>
@@ -42,17 +82,18 @@
                 <td th:text="${project.description}"></td>
                 <td th:text="${project.tasks != null ? project.tasks.size() : 0}"></td>
                 <td>
-                <ul th:if="${project.tasks != null}">
-                    <li th:each="task, stat : ${project.tasks}"
-                        th:if="${stat.index < 3}"
-                        th:text="${task.title}">
-                    </li>
-                </ul></td>
+                    <ul th:if="${project.tasks != null}">
+                        <li th:each="task, stat : ${project.tasks}"
+                            th:if="${stat.index < 3}"
+                            th:text="${task.title}">
+                        </li>
+                    </ul>
+                </td>
                 <td>
-                    <div class="d-flex gap-1">
+                    <div class="d-flex gap-1 justify-content-center">
                         <a th:href="@{/projects/{id}(id=${project.id})}" class="btn btn-primary btn-sm">Detalle</a>
                         <a th:href="@{/projects/{id}/editar(id=${project.id})}" class="btn btn-warning btn-sm">Editar</a>
-                        <form th:action="@{/projects/{id}/eliminar(id=${project.id})}" method="post">
+                        <form th:action="@{/projects/{id}/eliminar(id=${project.id})}" method="post" th:onsubmit="return confirm('¿Seguro que quieres eliminar?');">
                             <button type="submit" class="btn btn-danger btn-sm">Borrar</button>
                         </form>
                     </div>
@@ -62,8 +103,15 @@
         </table>
     </div>
 
-</div>
+</main>
 
+<!-- Footer -->
+<footer class="bg-light text-center text-muted py-3 mt-auto">
+    <small>&copy; 2025 GestorTIC</small>
+</footer>
+
+<!-- Scripts -->
 <script th:src="@{/webjars/bootstrap/js/bootstrap.bundle.min.js}"></script>
+
 </body>
 </html>
