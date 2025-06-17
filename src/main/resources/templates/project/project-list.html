@@ -31,13 +31,16 @@
                         <span class="color-gestortic me-2">Hola, <strong th:text="${loggedUser.name}">Usuario</strong></span>
                         <i class="fa-solid fa-circle-user color-gestortic fa-2x"></i>
                     </a>
-                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
-                        <li><a class="dropdown-item text-success" th:href="@{/profile}">
-                            <i class="fa fa-user me-2"></i>Perfil</a></li>
+                    <ul class="dropdown-menu dropdown-menu-end p-3" aria-labelledby="userDropdown" style="min-width: 200px;">
+                        <li class="mb-2">
+                            <a class="btn btn-success w-100" th:href="@{/profile}">
+                            <i class="fa fa-user me-2"></i>Perfil
+                            </a>
+                        </li>
                         <li><hr class="dropdown-divider"></li>
                         <li>
                             <form th:action="@{/logout}" method="post" class="m-0">
-                                <button type="submit" class="dropdown-item text-danger">
+                                <button type="submit" class="btn btn-danger w-100">
                                     <i class="fa fa-right-from-bracket me-2"></i>Salir</button>
                             </form>
                         </li>
