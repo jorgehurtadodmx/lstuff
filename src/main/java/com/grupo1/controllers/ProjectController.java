@@ -48,6 +48,21 @@ public class ProjectController {
 
     // Ver detalles de un proyecto por ID
     @GetMapping("/{id}")
+    public String findById(Model model, Principal principal, @PathVariable Long id) {
+        String loggedUsername = principal.getName();
+        User user = userRepository.findByUsername(loggedUsername)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+        Optional<Project> project = projectRepository.findById(id);
+        if (project.isPresent()) {
+            model.addAttribute("loggedUser", user);
+            model.addAttribute("project", project.get());
+        } else {
+            model.addAttribute("error", "Proyecto no encontrado");
+        }
+        return "project/project-detail";
+    }
+    /*// Ver detalles de un proyecto por ID
+    @GetMapping("/{id}")
     public String findById(Model model, @PathVariable Long id) {
         Optional<Project> project = projectRepository.findById(id);
         if (project.isPresent()) {
@@ -57,7 +72,7 @@ public class ProjectController {
         }
         return "project/project-detail";
     }
-
+*/
     // Formulario para crear nuevo proyecto
     @GetMapping("/new")
     public String createForm(Model model, Principal principal) {
