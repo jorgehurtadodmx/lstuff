@@ -22,16 +22,15 @@
     <br/>
     <label>Jefe de proyecto:</label>
     <span th:text="${loggedUser.name}">Usuario</span>
-    <button type="submit">Guardar</button>
+    <button type="submit">Guardar configuracion proyecto</button>
 </form>
 
 <!-- Solo para cuando el proyecto ya este creado, solo aparece en editar crear thif-->
-
-<p>Invitar a usuario</p>
+<div th:if="${project.id != null}">
 <form th:action="@{/projects/{id}/addUser(id=${project.id})}" method="post">
-<label>Seleccionar usuario:</label>
-<select id="userSelect" name="userId" class="form-select" required>
-    <option value=""> Selecciona un usuario
+<label>Añadir usuario a proyecto:</label>
+<select id="userSelect" name="userId" class="form-select">
+    <option value="" disabled> Selecciona un usuario
         <option th:each="user : ${allUsers}"
                 th:value="${user.id}"
                 th:text="${user.username}"
@@ -40,6 +39,7 @@
 </select>
     <button type="submit">Guardar</button>
 </form>
+</div>
 <a href="/projects">Volver a la lista</a>
 
 </body>

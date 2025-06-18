@@ -47,14 +47,8 @@
                 <td th:text="${project.name}"></td>
                 <td th:text="${project.description}"></td>
                 <td th:text="${project.tasks != null ? project.tasks.size() : 0}"></td>
+
                 <td>
-                    <ul th:if="${project.tasks != null}">
-                        <li th:each="task, stat : ${project.tasks}"
-                            th:if="${stat.index < 3}"
-                            th:text="${task.title}">
-                        </li>
-                    </ul>
-                </td>
                 <ul th:if="${project.tasks != null}">
                     <li th:each="task, stat : ${project.tasks}"
                         th:if="${stat.index < 3}">
