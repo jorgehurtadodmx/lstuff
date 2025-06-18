@@ -2,7 +2,7 @@
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8" />
-    <title th:text="${pageTitle} ?: 'GestorTIC'">GestorTIC</title>
+    <title>GestorTIC</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="icon" th:href="@{/favicon.ico}" />
     <link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" />
@@ -12,21 +12,7 @@
 <body class="d-flex flex-column min-vh-100">
 
 <!-- Navbar -->
-<nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm py-3">
-    <div class="container-fluid">
-        <a class="navbar-brand d-flex align-items-center" href="/">
-            <img src="/images/logo.svg" alt="Logo" class="me-2 logo-navbar" />
-        </a>
-        <div class="d-flex">
-            <!-- Aquí podrías poner login, nombre usuario o icono -->
-            <div class="d-flex align-items-center">
-                <button class="btn btn-primary me-2" data-bs-toggle="modal" data-bs-target="#loginModal">Iniciar Sesión</button>
-                <button class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#registerModal">Registrarse</button>
-            </div>
-
-        </div>
-    </div>
-</nav>
+<div th:replace="~{fragments/navbar :: navbarIndex}"></div>
 
 <!-- Contenido principal -->
 <main class="container my-5 text-center flex-grow-1">
@@ -53,7 +39,7 @@
 </main>
 
 <!-- Footer -->
-<footer class="bg-light text-center text-muted py-3 mt-auto">
+<footer class="bg-light text-center text-secondary py-3 mt-auto">
     <small>&copy; 2025 GestorTIC</small>
 </footer>
 

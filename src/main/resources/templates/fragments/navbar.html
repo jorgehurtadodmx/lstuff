@@ -1,0 +1,56 @@
+<!-- Navbar Index-->
+<nav th:fragment="navbarIndex" class="navbar navbar-expand-lg navbar-light bg-white shadow-sm py-3">
+    <div class="container-fluid">
+        <a class="navbar-brand d-flex align-items-center" href="/">
+            <img src="/images/logo.svg" alt="Logo" class="me-2 logo-navbar" />
+        </a>
+        <div class="d-flex">
+            <!-- Aquí podrías poner login, nombre usuario o icono -->
+            <div class="d-flex align-items-center">
+                <button class="btn btn-primary me-2" data-bs-toggle="modal" data-bs-target="#loginModal">Iniciar Sesión</button>
+                <button class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#registerModal">Registrarse</button>
+            </div>
+
+        </div>
+    </div>
+</nav>
+
+<!-- Navbar Resto de Vistas-->
+<nav th:fragment="navbar" class="navbar navbar-expand-lg navbar-light bg-white shadow-sm py-3">
+    <div class="container-fluid">
+        <a class="navbar-brand d-flex align-items-center" href="/">
+            <img src="/images/logo.svg" alt="Logo" class="me-2 logo-navbar" />
+        </a>
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
+            <ul class="navbar-nav mb-2 mb-lg-0 align-items-center">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="userDropdown" role="button"
+                       data-bs-toggle="dropdown" aria-expanded="false">
+                        <span class="color-gestortic me-2">Hola, <strong th:text="${loggedUser.name}">Usuario</strong></span>
+                        <i class="fa-solid fa-circle-user color-gestortic fa-2x"></i>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end p-3" aria-labelledby="userDropdown" style="min-width: 200px;">
+                        <li class="mb-2">
+                            <a class="btn btn-success w-100" th:href="@{/profile}">
+                                <i class="fa fa-user me-2"></i>Perfil
+                            </a>
+                        </li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li>
+                            <form th:action="@{/logout}" method="post" class="m-0">
+                                <button type="submit" class="btn btn-danger w-100">
+                                    <i class="fa fa-right-from-bracket me-2"></i>Salir</button>
+                            </form>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
