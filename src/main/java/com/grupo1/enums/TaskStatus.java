@@ -5,7 +5,7 @@ public enum TaskStatus {
     EN_PROGRESO,
     HECHA;
 }
-/*
+/* Descomentar si se necesita una versión con nombres en español
 
 public enum TaskStatus {
     OPEN("Abierta"),

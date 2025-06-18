@@ -32,6 +32,9 @@ public class Task {
     @Enumerated(EnumType.STRING)
     private TaskStatus taskStatus = TaskStatus.ABIERTA;
 
+    //habría que ponerla como
+  /*  @Column(name = "priority")
+    @Enumerated(EnumType.STRING)*/
     private Priority priority;
 
     @ManyToOne
