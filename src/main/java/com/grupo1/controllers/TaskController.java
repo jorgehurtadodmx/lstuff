@@ -131,4 +131,18 @@ public class TaskController {
         return "redirect:/tasks";
     }
 
+    @PostMapping("/{id}/assign")
+    private String assignTask(@PathVariable Long id, Principal principal) {
+        Task task = taskRepository.findById(id).orElseThrow(
+                () -> new IllegalArgumentException("Tarea no encontrada"));
+        User user = userRepository.findByUsername(principal.getName()).orElseThrow(
+                () -> new UsernameNotFoundException("Usuario no encontrado"));
+
+        if (task.getAssignedUser() == null & task.getProject().getUsers().contains(user)) {
+            task.setAssignedUser(user);
+            taskRepository.save(task);
+        }
+            return "redirect:/tasks/" + id;
+    }
+
 }

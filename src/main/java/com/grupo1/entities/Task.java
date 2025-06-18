@@ -38,20 +38,27 @@ public class Task {
     @JoinColumn(name = "project_id", nullable = false)
     private Project project;
 
+    @ManyToOne
+    @JoinColumn(name = "assigned_user_id")
+    private User assignedUser;
+
 
     public Task() {}
 
 
-    public Task(Long id, String title, String description, LocalDate dueDate, LocalDate createdAt, LocalDate updatedAt, Priority priority, TaskStatus taskStatus, Project project) {
+
+
+    public Task(Long id, String title, String description, LocalDate dueDate, LocalDate createdAt, LocalDate updatedAt, TaskStatus taskStatus, Priority priority, Project project, User assignedUser) {
         this.id = id;
         this.title = title;
         this.description = description;
         this.dueDate = dueDate;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
-        this.priority = priority;
         this.taskStatus = taskStatus;
+        this.priority = priority;
         this.project = project;
+        this.assignedUser = assignedUser;
     }
 
 
@@ -120,6 +127,22 @@ public class Task {
         this.priority = priority;
     }
 
+    public TaskStatus getTaskStatus() {
+        return taskStatus;
+    }
+
+    public void setTaskStatus(TaskStatus taskStatus) {
+        this.taskStatus = taskStatus;
+    }
+
+    public User getAssignedUser() {
+        return assignedUser;
+    }
+
+    public void setAssignedUser(User assignedUser) {
+        this.assignedUser = assignedUser;
+    }
+
     @Override
     public String toString() {
         return "Task{" +
@@ -132,14 +155,7 @@ public class Task {
                 ", taskStatus=" + taskStatus +
                 ", priority=" + priority +
                 ", project=" + project +
+                ", assignedUser=" + assignedUser +
                 '}';
-    }
-
-    public TaskStatus getTaskStatus() {
-        return taskStatus;
-    }
-
-    public void setTaskStatus(TaskStatus taskStatus) {
-        this.taskStatus = taskStatus;
     }
 }

@@ -22,6 +22,16 @@
         <strong>Estado:</strong> <span th:text="${task.taskStatus}"></span>
     </div>
 </div>
+<div th:if="${task.assignedUser == null}">
+
+    <form th:action="@{/tasks/{id}/assign(id=${task.id})}" method="post">
+        <button type="submit">Asignarme esta tarea</button>
+    </form>
+</div>
+
+<div th:if="${task.assignedUser != null}">
+    Asignada a: <span th:text="${task.assignedUser.username}">Usuario</span>
+</div>
 <div th:if="${error}">
     <p th:text="${error}" class="text-danger"></p>
 </div>

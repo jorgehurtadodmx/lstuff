@@ -142,16 +142,16 @@ public class ProjectController {
 
         projectRepository.delete(project);
 
-
-       // projectRepository.deleteById(id);
         return "redirect:/projects";
     }
 
     @PostMapping("/{id}/addUser")
     public String addUserToProject(@PathVariable Long id, @RequestParam UUID userId, Principal principal) {
-        Project project = projectRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Proyecto no encontrado"));
+        Project project = projectRepository.findById(id).orElseThrow(
+                () -> new IllegalArgumentException("Proyecto no encontrado"));
 
-        User addedUser = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("Usuario no encontrado"));
+        User addedUser = userRepository.findById(userId).orElseThrow(
+                () -> new IllegalArgumentException("Usuario no encontrado"));
         //evitar que se pueda añadir a si mismo y a ya existentes hecho en vista
         //si no lo contiene ya, añadir usuario seleccionado al proyecto
 
