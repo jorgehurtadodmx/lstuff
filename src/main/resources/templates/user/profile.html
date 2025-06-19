@@ -15,8 +15,9 @@
 <body>
 
 <!-- Contenido principal -->
-<main class="container my-5 text-center flex-grow-1">
-    <h1 th:text="${loggedUser.name} + ' - Perfil'">Perfil de Usuario</h1>
+<!--<main class="container my-5 text-center flex-grow-1">
+
+    <h1 th:text="'Perfil de ' + ${loggedUser.name}">Perfil de Usuario</h1>
 
     <div class="card mb-4">
         <div class="card-body">
@@ -29,7 +30,47 @@
 
         </div>
     </div>
+</main>-->
+
+<!-- Contenido principal -->
+<main class="d-flex justify-content-center my-5 flex-grow-1">
+    <div class="w-100" style="max-width: 500px;">
+        <div class="card">
+            <div class="card-header text-white text-center" style="background-color: #2e27de;">
+                <h1 class="m-0" th:text="'Perfil de ' + ${loggedUser.name}">Perfil de Usuario</h1>
+            </div>
+            <div class="card-body text-start">
+                <h2 class="card-title">Información del Usuario</h2>
+                <p><strong>Nombre:</strong> <span th:text="${loggedUser.name}"></span></p>
+                <p><strong>Apellidos:</strong> <span th:text="${loggedUser.surname}"></span></p>
+                <p><strong>Teléfono:</strong> <span th:text="${loggedUser.phone}"></span></p>
+                <p><strong>Usuario:</strong> <span th:text="${loggedUser.username}"></span></p>
+                <p><strong>Correo Electrónico:</strong> <span th:text="${loggedUser.email}"></span></p>
+
+               <!-- Botón centrado para volver a la página anterior-->
+               <!-- <div class="text-center mt-4">
+                    <a href="javascript:history.back()" class="btn btn-circle-custom" title="Volver">
+                        <i class="fas fa-arrow-left"></i>
+                    </a>
+                </div>-->
+
+                <!--Botón a la derecha para volver a la página anterior-->
+                <div class="d-flex justify-content-end mt-4">
+                    <a href="javascript:history.back()" class="btn btn-circle-custom" title="Volver">
+                        <i class="fas fa-arrow-left"></i>
+                    </a>
+                </div>
+                <!--Botón a la izquierda para volver a la página anterior-->
+                <!--<a href="javascript:history.back()" class="btn btn-circle-custom" title="Volver">
+                    <i class="fas fa-arrow-left"></i>
+                </a>-->
+
+
+            </div>
+        </div>
+    </div>
 </main>
+
 
             <!-- Footer -->
 <footer class="bg-light text-center text-muted py-3 mt-auto">
