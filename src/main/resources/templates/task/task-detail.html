@@ -32,6 +32,9 @@
 <div th:if="${task.assignedUser != null}">
     Asignada a: <span th:text="${task.assignedUser.username}">Usuario</span>
 </div>
+<div>
+    <a th:href="@{/comments/new(taskId=${task.id})}" class="btn btn-success">Crear nuevo comentario</a>
+</div>
 <div th:if="${error}">
     <p th:text="${error}" class="text-danger"></p>
 </div>

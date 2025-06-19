@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Lista de Comentarios</title>
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}">
+</head>
+<body class="container mt-4">
+
+<div class="card">
+    <div class="card-header d-flex justify-content-between align-items-center">
+        <h1 class="h3 mb-0">Lista de Comentarios</h1>
+        <a th:href="@{/comments/new}" class="btn btn-success btn-sm">Nuevo Comentario</a>
+    </div>
+
+    <div class="card-body">
+        <!-- Mensaje si no hay comentarios -->
+        <div th:if="${comments != null and comments.empty}" class="alert alert-info">
+            No hay comentarios registrados.
+        </div>
+
+        <!-- Lista de comentarios -->
+        <div th:unless="${comments == null or comments.empty}">
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead class="table-light">
+                    <tr>
+                        <th>ID</th>
+                        <th>Título</th>
+                        <th>Comentario</th>
+                        <th>Acciones</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="comment : ${comments}">
+                        <td th:text="${comment.id}"></td>
+                        <td th:text="${comment.title}"></td>
+                        <td>
+                            <span th:if="${comment.comment}"
+                                  th:text="${comment.comment}"></span>
+                            <span th:unless="${comment.comment}"
+                                  class="text-muted fst-italic">Sin comentario</span>
+                        </td>
+                        <td>
+                            <div class="btn-group btn-group-sm">
+                                <a th:href="@{'/comments/' + ${comment.id}}"
+                                   class="btn btn-outline-primary">Editar</a>
+                                <form th:action="@{'/comments/' + ${comment.id} + '/delete'}"
+                                      method="post"
+                                      onsubmit="return confirm('¿Eliminar este comentario?')">
+                                    <input type="hidden" name="_method" value="delete">
+                                    <button type="submit" class="btn btn-outline-danger">
+                                        Eliminar
+                                    </button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script th:src="@{/webjars/bootstrap/js/bootstrap.bundle.min.js}"></script>
+</body>
+</html>

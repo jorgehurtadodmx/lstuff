@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Formulario de Comentario</title>
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}">
+</head>
+<body class="container mt-4">
+
+<div class="card">
+    <div class="card-header d-flex justify-content-between align-items-center">
+        <h1 class="h3 mb-0" th:text="${comment.id != null} ? 'Editar Comentario' : 'Nuevo Comentario'"></h1>
+        <a th:href="@{/comments}" class="btn btn-secondary btn-sm">Volver</a>
+    </div>
+
+    <div class="card-body">
+        <form th:action="@{${comment.id != null} ? '/comments/' + ${comment.id} : '/comments'}"
+              th:object="${comment}"
+              method="post">
+
+            <!-- Campo oculto para el ID -->
+            <input type="hidden" th:field="*{id}">
+
+            <!-- Selección de Tarea - Corregido -->
+            <div class="mb-3">
+                <label for="task" class="form-label">Tarea*</label>
+                <select id="task" class="form-control" th:field="*{task}" required>
+                    <option value="">Seleccione una tarea</option>
+                    <option th:each="task : ${tasks}"
+                            th:value="${task.id}"
+                            th:text="${task.title + ' (Proyecto: ' + task.project.name + ')'}"
+                            th:selected="${comment.task != null and comment.task.id == task.id}">
+                    </option>
+                </select>
+                <small class="text-muted">Seleccione la tarea relacionada</small>
+            </div>
+
+            <!-- Título del Comentario -->
+            <div class="mb-3">
+                <label for="title" class="form-label">Título*</label>
+                <input type="text" class="form-control" id="title"
+                       th:field="*{title}" required
+                       placeholder="Ingrese el título del comentario">
+                <div class="invalid-feedback">Por favor ingrese un título</div>
+            </div>
+
+            <!-- Contenido del Comentario -->
+            <div class="mb-3">
+                <label for="comment" class="form-label">Comentario</label>
+                <textarea class="form-control" id="comment"
+                          th:field="*{comment}" rows="5"
+                          maxlength="500"
+                          placeholder="Escriba su comentario aquí (máx. 500 caracteres)"></textarea>
+                <small class="text-muted">
+                    <span th:text="${#strings.length(comment.comment)}">0</span>/500 caracteres
+                </small>
+            </div>
+
+            <!-- Botones de acción -->
+            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                <button type="reset" class="btn btn-outline-secondary me-md-2">Limpiar</button>
+                <button type="submit" class="btn btn-primary">
+                    <span th:text="${comment.id != null} ? 'Actualizar' : 'Guardar'"></span> Comentario
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script th:src="@{/webjars/bootstrap/js/bootstrap.bundle.min.js}"></script>
+<script>
+    // Validación básica del formulario
+    document.querySelector('form').addEventListener('submit', function(e) {
+        const title = document.getElementById('title').value.trim();
+        const task = document.getElementById('task').value;
+
+        if (!title || !task) {
+            e.preventDefault();
+            alert('Por favor complete todos los campos obligatorios (*)');
+        }
+    });
+</script>
+</body>
+</html>
