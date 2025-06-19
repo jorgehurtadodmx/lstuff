@@ -78,7 +78,7 @@ eliminar, irrelevante
                 <div class="d-flex gap-1">
                     <a th:href="@{/tasks/{id}(id=${task.id})}" class="btn btn-primary btn-sm">Detalle</a>
                     <a th:href="@{/tasks/{id}/editar(id=${task.id})}" class="btn btn-warning btn-sm">Editar</a>
-                    <form th:action="@{/tasks/tareas/{id}/eliminar(id=${task.id})}" method="post">
+                    <form th:action="@{/tasks/{id}/eliminar(id=${task.id})}" method="post">
                         <button type="submit" class="btn btn-danger btn-sm">Borrar</button>
                     </form>
                 </div>

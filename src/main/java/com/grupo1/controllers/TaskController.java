@@ -58,9 +58,24 @@ public class TaskController {
     //TODO: buscador de tareas, de momento filtro por nombre
     //filtro por nomnre
     @GetMapping("/buscar")  //http://localhost:8080/tareas/buscar?title=tarea1
-    public String findByName(Model model, @RequestParam("title") String title) {
-        List<Task> tasks = taskRepository.findByTitleContainsIgnoreCase(title);
-        model.addAttribute("tasks", tasks);
+    public String findByName(Model model, @RequestParam("title") String title, Principal principal) {
+        String username = principal.getName();
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado"));
+
+        List<Project> userProjects = user.getProjects();
+        List<Task> userTasks = new ArrayList<>();
+
+        for (Project project : userProjects) {
+            for (Task task : project.getTasks()) {
+                if (task.getTitle().toLowerCase().contains(title.toLowerCase())) {
+                    userTasks.add(task);
+                }
+            }
+        }
+
+        //List<Task> tasks = taskRepository.findByTitleContainsIgnoreCase(title);
+        model.addAttribute("tasks", userTasks);
         model.addAttribute("actualSearch", title);
         return "task/task-list";
     }
