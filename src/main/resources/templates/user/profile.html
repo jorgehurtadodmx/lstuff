@@ -15,44 +15,27 @@
 <body>
 
 <!-- Contenido principal -->
-<!--<main class="container my-5 text-center flex-grow-1">
-
-    <h1 th:text="'Perfil de ' + ${loggedUser.name}">Perfil de Usuario</h1>
-
-    <div class="card mb-4">
-        <div class="card-body">
-            <h2 class="card-title">Información del Usuario</h2>
-            <p><strong>Nombre:</strong> <span th:text="${loggedUser.name}"></span></p>
-            <p><strong>Apellidos:</strong> <span th:text="${loggedUser.surname}"></span></p>
-            <p><strong>Teléfono:</strong> <span th:text="${loggedUser.phone}"></span></p>
-            <p><strong>Usuario:</strong> <span th:text="${loggedUser.username}"></span></p>
-            <p><strong>Correo Electrónico:</strong> <span th:text="${loggedUser.email}"></span></p>
-
-        </div>
-    </div>
-</main>-->
-
-<!-- Contenido principal -->
 <main class="d-flex justify-content-center my-5 flex-grow-1">
     <div class="w-100" style="max-width: 500px;">
-        <div class="card">
+        <div class="card shadow-sm">
             <div class="card-header text-white text-center" style="background-color: #2e27de;">
-                <h1 class="m-0" th:text="'Perfil de ' + ${loggedUser.name}">Perfil de Usuario</h1>
+                <h1 class="m-0">
+                    <i class="fas fa-address-card me-2"></i> <!-- Carita antes del título -->
+                    <span th:text="'Perfil de ' + ${loggedUser.name}">Perfil de Usuario</span>
+                </h1>
             </div>
             <div class="card-body text-start">
-                <h2 class="card-title">Información del Usuario</h2>
-                <p><strong>Nombre:</strong> <span th:text="${loggedUser.name}"></span></p>
-                <p><strong>Apellidos:</strong> <span th:text="${loggedUser.surname}"></span></p>
-                <p><strong>Teléfono:</strong> <span th:text="${loggedUser.phone}"></span></p>
-                <p><strong>Usuario:</strong> <span th:text="${loggedUser.username}"></span></p>
-                <p><strong>Correo Electrónico:</strong> <span th:text="${loggedUser.email}"></span></p>
+                <h2 class="card-title">
+                    <i class="fas fa-info-circle color-gestortic me-2"></i> <!-- círculo con i -->
+                    Información del Usuario
+                </h2>
 
-               <!-- Botón centrado para volver a la página anterior-->
-               <!-- <div class="text-center mt-4">
-                    <a href="javascript:history.back()" class="btn btn-circle-custom" title="Volver">
-                        <i class="fas fa-arrow-left"></i>
-                    </a>
-                </div>-->
+                <!-- Campos con iconos -->
+                <p><i class="fas fa-user me-2  mt-3 text-secondary"></i><strong>Nombre:</strong> <span th:text="${loggedUser.name}"></span></p>
+                <p><i class="fas fa-user-tag me-2 text-secondary"></i><strong>Apellidos:</strong> <span th:text="${loggedUser.surname}"></span></p>
+                <p><i class="fas fa-phone me-2 text-secondary"></i><strong>Teléfono:</strong> <span th:text="${loggedUser.phone}"></span></p>
+                <p><i class="fas fa-user-circle me-2 text-secondary"></i><strong>Usuario:</strong> <span th:text="${loggedUser.username}"></span></p>
+                <p><i class="fas fa-envelope me-2 text-secondary"></i><strong>Correo Electrónico:</strong> <span th:text="${loggedUser.email}"></span></p>
 
                 <!--Botón a la derecha para volver a la página anterior-->
                 <div class="d-flex justify-content-end mt-4">
@@ -60,17 +43,10 @@
                         <i class="fas fa-arrow-left"></i>
                     </a>
                 </div>
-                <!--Botón a la izquierda para volver a la página anterior-->
-                <!--<a href="javascript:history.back()" class="btn btn-circle-custom" title="Volver">
-                    <i class="fas fa-arrow-left"></i>
-                </a>-->
-
-
             </div>
         </div>
     </div>
 </main>
-
 
             <!-- Footer -->
 <footer class="bg-light text-center text-muted py-3 mt-auto">
