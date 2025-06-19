@@ -53,7 +53,7 @@
                           maxlength="500"
                           placeholder="Escriba su comentario aquí (máx. 500 caracteres)"></textarea>
                 <small class="text-muted">
-                    <span th:text="${#strings.length(comment.comment)}">0</span>/500 caracteres
+                    <span th:text="${#strings.length(comment.comment ?: '')}">0</span>/500 caracteres
                 </small>
             </div>
 

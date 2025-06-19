@@ -34,7 +34,6 @@ public class SecurityConfig {
         return authenticationManagerBuilder.build();
     }
 
-
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
@@ -47,7 +46,8 @@ public class SecurityConfig {
                                 "/images/**",
                                 "/auth/**",
                                 "/",
-                                "/error"
+                                "/error",
+                                "/comment/**"
                         ).permitAll()
                         .anyRequest().authenticated()
                 )
