@@ -25,6 +25,12 @@
         <textarea id="description" th:field="*{description}" placeholder="Descripción de la tarea" rows="4"></textarea>
     </div>
     <br>
+    <!-- Fecha de creacion -->
+    <div>
+        <label for="createdAt">Fecha creacion:</label>
+        <input type="date" id="createdAt" name="createdAt"
+               th:value="${task.createdAt != null} ? ${task.createdAt} : ''" />
+    </div>
     <!-- Fecha de vencimiento -->
     <div>
         <label for="dueDate">Fecha límite:</label>

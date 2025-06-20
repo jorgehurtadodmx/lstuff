@@ -15,6 +15,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -119,6 +120,14 @@ public class TaskController {
             Optional<Project> project = projectRepository.findById(projectId);
           project.ifPresent(newTask::setProject);
         }
+        LocalDate today = LocalDate.now();
+        newTask.setCreatedAt(today);
+
+       // Priority defaultPriority = Priority.MEDIA;
+       // newTask.setPriority(defaultPriority);
+        //newTask.setDueDate(calculateDate(today, defaultPriority));
+
+
         model.addAttribute("task", newTask);
         model.addAttribute("taskStatus", TaskStatus.values());
         model.addAttribute("priorities", Priority.values());
@@ -126,6 +135,13 @@ public class TaskController {
         return "task/task-form";
     }
 
+    private LocalDate calculateDate(LocalDate createdAt, Priority priority) {
+        return switch (priority) {
+            case CRITICA -> createdAt.plusDays(1);
+            case MEDIA -> createdAt.plusDays(3);
+            case BAJA -> createdAt.plusDays(7);
+        };
+    }
 
     @PostMapping("/save")
     public String saveForm(@ModelAttribute Task task) {
@@ -137,6 +153,12 @@ public class TaskController {
             }
             task.setProject(optionalProject.get());
         }
+
+        if (task.getDueDate() == null && task.getCreatedAt() != null) {
+            task.setDueDate(calculateDate(task.getCreatedAt(), task.getPriority()));
+        }
+
+        task.setUpdatedAt(LocalDate.now());
         taskRepository.save(task);
         return "redirect:/tasks";
     }
