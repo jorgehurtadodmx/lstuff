@@ -13,7 +13,6 @@
     <label>Nombre del proyecto:</label>
     <input type="text" th:field="*{name}" required />
     <br/>
-
     <label>Descripción:</label>
     <textarea th:field="*{description}" rows="5" cols="40"></textarea>
     <br/>
@@ -21,7 +20,7 @@
     <input type="date" th:field="*{startDate}" />
     <br/>
     <label>Jefe de proyecto:</label>
-    <span th:text="${loggedUser.name}">Usuario</span>
+    <span th:text="${project.createdBy != null ? project.createdBy.name : loggedUser.name}">Usuario</span>
     <button type="submit">Guardar configuracion proyecto</button>
 </form>
 

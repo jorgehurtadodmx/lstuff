@@ -3,6 +3,7 @@ package com.grupo1.controllers;
 import com.grupo1.entities.Project;
 import com.grupo1.entities.Task;
 import com.grupo1.entities.User;
+import com.grupo1.enums.Priority;
 import com.grupo1.enums.TaskStatus;
 import com.grupo1.repositories.ProjectRepository;
 import com.grupo1.repositories.TaskRepository;
@@ -100,6 +101,7 @@ public class TaskController {
         if (task.isPresent()) {
             model.addAttribute("task", task.get());
             model.addAttribute("taskStatus", TaskStatus.values());
+            model.addAttribute("priorities", Priority.values());
             model.addAttribute("projects", projectRepository.findAll());
             return "task/task-form";
 
@@ -119,6 +121,7 @@ public class TaskController {
         }
         model.addAttribute("task", newTask);
         model.addAttribute("taskStatus", TaskStatus.values());
+        model.addAttribute("priorities", Priority.values());
         model.addAttribute("projects", projectRepository.findAll());
         return "task/task-form";
     }

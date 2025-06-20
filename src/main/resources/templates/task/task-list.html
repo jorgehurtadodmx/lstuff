@@ -49,6 +49,7 @@ eliminar, irrelevante
             <th>Titulo</th>
             <th>Descripcion</th>
             <th>Estado</th>
+            <th>Prioridad</th>
             <th>Fecha fin</th>
             <th>Creado el</th>
             <th>Actualizado el</th>
@@ -63,6 +64,7 @@ eliminar, irrelevante
             <td th:text="${task.title}"></td>
             <td th:text="${task.description}"></td>
             <td th:text="${task.taskStatus}"></td>
+            <td th:text="${task.priority}">MEDIA</td>
             <p>Valor dueDate (debug): <span th:text="${task.dueDate}">No hay fecha</span></p>
 
             <td th:text="${task.dueDate != null ? #temporals.format(task.dueDate, 'dd/MM/yyyy') : 'Sin fecha de finalización'}"></td>

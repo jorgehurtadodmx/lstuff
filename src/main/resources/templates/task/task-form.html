@@ -39,6 +39,13 @@
             <option th:each="status : ${taskStatus}" th:value="${status}" th:text="${status}"></option>
         </select>
     </div>
+
+    <label>Prioridad:</label>
+    <select th:field="*{priority}" class="form-select" required>
+        <option value="" disabled>Selecciona prioridad</option>
+        <option th:each="priority : ${priorities}" th:value="${priority}" th:text="${priority}">
+        </option>
+    </select>
     <!-- Botones -->
     <div>
         <a th:href="@{/tasks}">Cancelar</a>

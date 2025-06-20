@@ -32,7 +32,9 @@ public class Task {
     @Enumerated(EnumType.STRING)
     private TaskStatus taskStatus = TaskStatus.ABIERTA;
 
-    private Priority priority;
+    @Column(name = "priority")
+    @Enumerated(EnumType.STRING)
+    private Priority priority = Priority.MEDIA;
 
     @ManyToOne
     @JoinColumn(name = "project_id", nullable = false)
@@ -43,10 +45,8 @@ public class Task {
     private User assignedUser;
 
 
-    public Task() {}
-
-
-
+    public Task() {
+    }
 
     public Task(Long id, String title, String description, LocalDate dueDate, LocalDate createdAt, LocalDate updatedAt, TaskStatus taskStatus, Priority priority, Project project, User assignedUser) {
         this.id = id;
@@ -61,6 +61,21 @@ public class Task {
         this.assignedUser = assignedUser;
     }
 
+    @Override
+    public String toString() {
+        return "Task{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                ", dueDate=" + dueDate +
+                ", createdAt=" + createdAt +
+                ", updatedAt=" + updatedAt +
+                ", taskStatus=" + taskStatus +
+                ", priority=" + priority +
+                ", project=" + project +
+                ", assignedUser=" + assignedUser +
+                '}';
+    }
 
     public Long getId() {
         return id;
@@ -110,14 +125,13 @@ public class Task {
         this.updatedAt = updatedAt;
     }
 
-    public Project getProject() {
-        return project;
+    public TaskStatus getTaskStatus() {
+        return taskStatus;
     }
 
-    public void setProject(Project project) {
-        this.project = project;
+    public void setTaskStatus(TaskStatus taskStatus) {
+        this.taskStatus = taskStatus;
     }
-
 
     public Priority getPriority() {
         return priority;
@@ -127,12 +141,12 @@ public class Task {
         this.priority = priority;
     }
 
-    public TaskStatus getTaskStatus() {
-        return taskStatus;
+    public Project getProject() {
+        return project;
     }
 
-    public void setTaskStatus(TaskStatus taskStatus) {
-        this.taskStatus = taskStatus;
+    public void setProject(Project project) {
+        this.project = project;
     }
 
     public User getAssignedUser() {
@@ -141,21 +155,5 @@ public class Task {
 
     public void setAssignedUser(User assignedUser) {
         this.assignedUser = assignedUser;
-    }
-
-    @Override
-    public String toString() {
-        return "Task{" +
-                "id=" + id +
-                ", title='" + title + '\'' +
-                ", description='" + description + '\'' +
-                ", dueDate=" + dueDate +
-                ", createdAt=" + createdAt +
-                ", updatedAt=" + updatedAt +
-                ", taskStatus=" + taskStatus +
-                ", priority=" + priority +
-                ", project=" + project +
-                ", assignedUser=" + assignedUser +
-                '}';
     }
 }
