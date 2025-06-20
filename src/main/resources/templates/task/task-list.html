@@ -62,9 +62,9 @@ eliminar, irrelevante
             <td th:text="${task.id}"></td>
             <td th:text="${task.title}"></td>
             <td th:text="${task.description}"></td>
-            <td th:text="${task.taskStatus}"></td>
+
            <!-- Probar para que pille el displayName de la enumeración-->
-            <!--<td th:text="${task.taskStatus.displayName}"></td>-->
+           <td th:text="${task.taskStatus.displayName}"></td>
             <p>Valor dueDate (debug): <span th:text="${task.dueDate}">No hay fecha</span></p>
 
             <td th:text="${task.dueDate != null ? #temporals.format(task.dueDate, 'dd/MM/yyyy') : 'Sin fecha de finalización'}"></td>

@@ -1,11 +1,5 @@
 package com.grupo1.enums;
 
-public enum TaskStatus {
-    ABIERTA,
-    EN_PROGRESO,
-    HECHA;
-}
-/* Descomentar si se necesita una versión con nombres en español
 
 public enum TaskStatus {
     OPEN("Abierta"),
@@ -22,4 +16,4 @@ public enum TaskStatus {
         return displayName;
     }
 }
-*/
+

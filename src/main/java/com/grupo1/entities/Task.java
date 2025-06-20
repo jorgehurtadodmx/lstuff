@@ -30,7 +30,8 @@ public class Task {
 
     @Column(name = "status")
     @Enumerated(EnumType.STRING)
-    private TaskStatus taskStatus = TaskStatus.ABIERTA;
+    private TaskStatus taskStatus = TaskStatus.OPEN;
+
 
     //habría que ponerla como
   /*  @Column(name = "priority")

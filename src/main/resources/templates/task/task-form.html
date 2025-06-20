@@ -36,7 +36,7 @@
     <div>
         <label>Estado:</label>
         <select id="taskStatus" th:field="*{taskStatus}">
-            <option th:each="status : ${taskStatus}" th:value="${status}" th:text="${status}"></option>
+            <option th:each="status : ${taskStatus}" th:value="${status}" th:text="${status.displayName}"></option>
         </select>
     </div>
     <!-- Botones -->
