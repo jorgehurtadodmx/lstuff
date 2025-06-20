@@ -75,7 +75,7 @@ eliminar, irrelevante
                 <a th:if="${task.project != null}" th:href="@{/projects/{id}(id=${task.project.id})}" th:text="${task.project.name}"></a>
                 <span th:if="${task.project == null}">No pertenece a un proyecto</span>
             </td>
-            <!--<td th:text="${task.assignedToUser != null ? task.assignedToUser.name : 'Unassigned'}"></td>-->
+            <td th:text="${task.assignedUser != null ? task.assignedUser.username : 'Sin asignar'}"></td>
             <td>
                 <div class="d-flex gap-1">
                     <a th:href="@{/tasks/{id}(id=${task.id})}" class="btn btn-primary btn-sm">Detalle</a>
