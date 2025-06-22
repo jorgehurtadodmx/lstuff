@@ -22,16 +22,19 @@
         <i class="fas fa-folder-open me-2"></i> Lista de proyectos
     </h1>
 
+    <!-- Botón Crear Nuevo Proyecto, siempre visible -->
+    <div class="d-flex justify-content-between align-items-center my-3">
+        <a class="btn btn-success" th:href="@{/projects/new}">
+            <i class="fa-solid fa-plus me-2"></i>Nuevo proyecto</a>
+    </div>
+
     <!-- Si no hay proyectos -->
     <div th:if="${projects.isEmpty()}" class="alert alert-warning mt-3">
         <p class="mb-0">Sin proyectos</p>
     </div>
 
-    <!-- Botones acción -->
+    <!-- El resto del contenido sigue igual -->
     <div th:unless="${projects.isEmpty()}" class="d-flex justify-content-between align-items-center my-3">
-        <a class="btn btn-success" th:href="@{/projects/new}">
-            <i class="fa-solid fa-plus me-2"></i>Nuevo proyecto</a>
-
         <div class="btn-group" role="group">
             <button id="btnTabla" class="btn btn-outline-primary active">
                 <i class="fas fa-table me-1"></i> Tabla
@@ -42,6 +45,27 @@
         </div>
     </div>
 
+
+    <!-- &lt;!&ndash; Si no hay proyectos &ndash;&gt;
+     <div th:if="${projects.isEmpty()}" class="alert alert-warning mt-3">
+         <p class="mb-0">Sin proyectos</p>
+     </div>
+
+     &lt;!&ndash; Botones acción &ndash;&gt;
+     <div th:unless="${projects.isEmpty()}" class="d-flex justify-content-between align-items-center my-3">
+         <a class="btn btn-success" th:href="@{/projects/new}">
+             <i class="fa-solid fa-plus me-2"></i>Nuevo proyecto</a>
+
+         <div class="btn-group" role="group">
+             <button id="btnTabla" class="btn btn-outline-primary active">
+                 <i class="fas fa-table me-1"></i> Tabla
+             </button>
+             <button id="btnCards" class="btn btn-outline-primary">
+                 <i class="fas fa-th-large me-1"></i> Tarjetas
+             </button>
+         </div>
+     </div>
+ -->
     <!-- Vista Tabla -->
     <div th:unless="${projects.isEmpty()}" id="vistaTabla" class="table-responsive">
         <table class="table table-bordered table-striped table-hover">
