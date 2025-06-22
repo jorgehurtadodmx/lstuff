@@ -21,6 +21,12 @@
     <div class="detalle-item" th:if="${task.taskStatus != null}">
         <strong>Estado:</strong> <span th:text="${task.taskStatus.displayName}"></span>
     </div>
+    <div class="detalle-item">
+        <strong>Prioridad:</strong> <span th:text="${task.priority}"></span>
+    </div>
+    <div class="detalle-item" th:if="${task.updatedAt != null}">
+        <strong>Actualizado el:</strong> <span th:text="${#temporals.format(task.updatedAt, 'dd/MM/yyyy')}"></span>
+    </div>
 </div>
 <div th:if="${task.assignedUser == null}">
 

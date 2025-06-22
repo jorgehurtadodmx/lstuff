@@ -13,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -79,8 +80,11 @@ public class ProjectController {
         String username = principal.getName();
         User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+
+        Project newProject = new Project();
+        newProject.setStartDate(LocalDate.now());
         model.addAttribute("loggedUser", user);
-        model.addAttribute("project", new Project());
+        model.addAttribute("project",newProject);
         return "/project/project-form";
     }
 
@@ -106,6 +110,7 @@ public class ProjectController {
         } else {
             // Si es nuevo, asignar datos
             project = newProject;
+            project.setCreatedBy(user);
         }
 
         //asignar usuario creador a proyecto

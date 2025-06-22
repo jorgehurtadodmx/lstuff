@@ -2,6 +2,7 @@ package com.grupo1.entities;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -26,7 +27,7 @@ public class Project {
     @Column(length = 500)
     private String description;
 
-    //start_date
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     @Column(name = "start_date")
     private LocalDate startDate;
 
@@ -35,6 +36,12 @@ public class Project {
 
     @ManyToMany(mappedBy = "projects")
     private List<User> users = new ArrayList<>();
+
+
+    @ManyToOne
+    @JoinColumn(name = "created_by_id")
+    private User createdBy;
+
 
     public Long getId() {
         return id;
@@ -84,6 +91,14 @@ public class Project {
         this.users = users;
     }
 
+    public User getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(User createdBy) {
+        this.createdBy = createdBy;
+    }
+
     @Override
     public String toString() {
         return "Project{" +
@@ -93,6 +108,7 @@ public class Project {
                 ", startDate=" + startDate +
                 ", tasks=" + tasks +
                 ", users=" + users +
+                ", createdBy=" + createdBy +
                 '}';
     }
 }
