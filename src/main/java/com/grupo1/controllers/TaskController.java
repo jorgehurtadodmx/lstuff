@@ -3,6 +3,7 @@ package com.grupo1.controllers;
 import com.grupo1.entities.Project;
 import com.grupo1.entities.Task;
 import com.grupo1.entities.User;
+import com.grupo1.enums.Priority;
 import com.grupo1.enums.TaskStatus;
 import com.grupo1.repositories.ProjectRepository;
 import com.grupo1.repositories.TaskRepository;
@@ -14,6 +15,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -58,9 +60,24 @@ public class TaskController {
     //TODO: buscador de tareas, de momento filtro por nombre
     //filtro por nomnre
     @GetMapping("/buscar")  //http://localhost:8080/tareas/buscar?title=tarea1
-    public String findByName(Model model, @RequestParam("title") String title) {
-        List<Task> tasks = taskRepository.findByTitleContainsIgnoreCase(title);
-        model.addAttribute("tasks", tasks);
+    public String findByName(Model model, @RequestParam("title") String title, Principal principal) {
+        String username = principal.getName();
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado"));
+
+        List<Project> userProjects = user.getProjects();
+        List<Task> userTasks = new ArrayList<>();
+
+        for (Project project : userProjects) {
+            for (Task task : project.getTasks()) {
+                if (task.getTitle().toLowerCase().contains(title.toLowerCase())) {
+                    userTasks.add(task);
+                }
+            }
+        }
+
+        //List<Task> tasks = taskRepository.findByTitleContainsIgnoreCase(title);
+        model.addAttribute("tasks", userTasks);
         model.addAttribute("actualSearch", title);
         return "task/task-list";
     }
@@ -85,6 +102,7 @@ public class TaskController {
         if (task.isPresent()) {
             model.addAttribute("task", task.get());
             model.addAttribute("taskStatus", TaskStatus.values());
+            model.addAttribute("priorities", Priority.values());
             model.addAttribute("projects", projectRepository.findAll());
             return "task/task-form";
 
@@ -102,12 +120,28 @@ public class TaskController {
             Optional<Project> project = projectRepository.findById(projectId);
           project.ifPresent(newTask::setProject);
         }
+        LocalDate today = LocalDate.now();
+        newTask.setCreatedAt(today);
+
+       // Priority defaultPriority = Priority.MEDIA;
+       // newTask.setPriority(defaultPriority);
+        //newTask.setDueDate(calculateDate(today, defaultPriority));
+
+
         model.addAttribute("task", newTask);
         model.addAttribute("taskStatus", TaskStatus.values());
+        model.addAttribute("priorities", Priority.values());
         model.addAttribute("projects", projectRepository.findAll());
         return "task/task-form";
     }
 
+    private LocalDate calculateDate(LocalDate createdAt, Priority priority) {
+        return switch (priority) {
+            case CRITICA -> createdAt.plusDays(1);
+            case MEDIA -> createdAt.plusDays(3);
+            case BAJA -> createdAt.plusDays(7);
+        };
+    }
 
     @PostMapping("/save")
     public String saveForm(@ModelAttribute Task task) {
@@ -119,6 +153,12 @@ public class TaskController {
             }
             task.setProject(optionalProject.get());
         }
+
+        if (task.getDueDate() == null && task.getCreatedAt() != null) {
+            task.setDueDate(calculateDate(task.getCreatedAt(), task.getPriority()));
+        }
+
+        task.setUpdatedAt(LocalDate.now());
         taskRepository.save(task);
         return "redirect:/tasks";
     }

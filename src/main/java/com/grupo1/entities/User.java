@@ -136,7 +136,7 @@ public class User {
         this.projects = projects;
     }
 
-    @Override
+   /* @Override
     public String toString() {
         return "User{" +
                 "id=" + id +
@@ -151,6 +151,6 @@ public class User {
                 ", projects=" + projects +
                 '}';
     }
-
+*/
 
 }

@@ -13,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -48,6 +49,21 @@ public class ProjectController {
 
     // Ver detalles de un proyecto por ID
     @GetMapping("/{id}")
+    public String findById(Model model, Principal principal, @PathVariable Long id) {
+        String loggedUsername = principal.getName();
+        User user = userRepository.findByUsername(loggedUsername)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+        Optional<Project> project = projectRepository.findById(id);
+        if (project.isPresent()) {
+            model.addAttribute("loggedUser", user);
+            model.addAttribute("project", project.get());
+        } else {
+            model.addAttribute("error", "Proyecto no encontrado");
+        }
+        return "project/project-detail";
+    }
+    /*// Ver detalles de un proyecto por ID
+    @GetMapping("/{id}")
     public String findById(Model model, @PathVariable Long id) {
         Optional<Project> project = projectRepository.findById(id);
         if (project.isPresent()) {
@@ -57,15 +73,18 @@ public class ProjectController {
         }
         return "project/project-detail";
     }
-
+*/
     // Formulario para crear nuevo proyecto
     @GetMapping("/new")
     public String createForm(Model model, Principal principal) {
         String username = principal.getName();
         User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+
+        Project newProject = new Project();
+        newProject.setStartDate(LocalDate.now());
         model.addAttribute("loggedUser", user);
-        model.addAttribute("project", new Project());
+        model.addAttribute("project",newProject);
         return "/project/project-form";
     }
 
@@ -91,6 +110,7 @@ public class ProjectController {
         } else {
             // Si es nuevo, asignar datos
             project = newProject;
+            project.setCreatedBy(user);
         }
 
         //asignar usuario creador a proyecto

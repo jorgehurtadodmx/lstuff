@@ -63,6 +63,9 @@ eliminar, irrelevante
             <td th:text="${task.title}"></td>
             <td th:text="${task.description}"></td>
             <td th:text="${task.taskStatus}"></td>
+
+           <!-- Probar para que pille el displayName de la enumeración-->
+           <td th:text="${task.taskStatus.displayName}"></td>
             <p>Valor dueDate (debug): <span th:text="${task.dueDate}">No hay fecha</span></p>
 
             <td th:text="${task.dueDate != null ? #temporals.format(task.dueDate, 'dd/MM/yyyy') : 'Sin fecha de finalización'}"></td>
@@ -73,12 +76,12 @@ eliminar, irrelevante
                 <a th:if="${task.project != null}" th:href="@{/projects/{id}(id=${task.project.id})}" th:text="${task.project.name}"></a>
                 <span th:if="${task.project == null}">No pertenece a un proyecto</span>
             </td>
-            <!--<td th:text="${task.assignedToUser != null ? task.assignedToUser.name : 'Unassigned'}"></td>-->
+            <td th:text="${task.assignedUser != null ? task.assignedUser.name : 'No asignado'}"></td>
             <td>
                 <div class="d-flex gap-1">
                     <a th:href="@{/tasks/{id}(id=${task.id})}" class="btn btn-primary btn-sm">Detalle</a>
                     <a th:href="@{/tasks/{id}/editar(id=${task.id})}" class="btn btn-warning btn-sm">Editar</a>
-                    <form th:action="@{/tasks/tareas/{id}/eliminar(id=${task.id})}" method="post">
+                    <form th:action="@{/tasks/{id}/eliminar(id=${task.id})}" method="post">
                         <button type="submit" class="btn btn-danger btn-sm">Borrar</button>
                     </form>
                 </div>

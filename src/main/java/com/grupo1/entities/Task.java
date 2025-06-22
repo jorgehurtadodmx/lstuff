@@ -30,9 +30,11 @@ public class Task {
 
     @Column(name = "status")
     @Enumerated(EnumType.STRING)
-    private TaskStatus taskStatus = TaskStatus.ABIERTA;
+    private TaskStatus taskStatus = TaskStatus.OPEN;
 
-    private Priority priority;
+    @Column(name = "priority")
+    @Enumerated(EnumType.STRING)
+    private Priority priority = Priority.MEDIA;
 
     @ManyToOne
     @JoinColumn(name = "project_id", nullable = false)
@@ -43,10 +45,8 @@ public class Task {
     private User assignedUser;
 
 
-    public Task() {}
-
-
-
+    public Task() {
+    }
 
     public Task(Long id, String title, String description, LocalDate dueDate, LocalDate createdAt, LocalDate updatedAt, TaskStatus taskStatus, Priority priority, Project project, User assignedUser) {
         this.id = id;

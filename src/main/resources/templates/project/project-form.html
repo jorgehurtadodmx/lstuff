@@ -1,10 +1,19 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
+    <meta charset="UTF-8" />
     <title>Formulario de Proyecto</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" th:href="@{/favicon.ico}" />
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" />
+    <link rel="stylesheet" th:href="@{/webjars/font-awesome/css/all.css}">
+    <link rel="stylesheet" th:href="@{/css/styles.css}" />
 </head>
 <body>
+<!-- Navbar -->
+<div th:replace="~{fragments/navbar :: navbar}"></div>
 
+<!-- Contenido principal -->
 <h1 th:text="${project.id} == null ? 'Crear Proyecto' : 'Editar Proyecto'"></h1>
 
 <form th:action="@{/projects/save}" th:object="${project}" method="post">
@@ -13,7 +22,6 @@
     <label>Nombre del proyecto:</label>
     <input type="text" th:field="*{name}" required />
     <br/>
-
     <label>Descripción:</label>
     <textarea th:field="*{description}" rows="5" cols="40"></textarea>
     <br/>
@@ -21,7 +29,7 @@
     <input type="date" th:field="*{startDate}" />
     <br/>
     <label>Jefe de proyecto:</label>
-    <span th:text="${loggedUser.name}">Usuario</span>
+    <span th:text="${project.createdBy != null ? project.createdBy.name : loggedUser.name}">Usuario</span>
     <button type="submit">Guardar configuracion proyecto</button>
 </form>
 
@@ -41,6 +49,14 @@
 </form>
 </div>
 <a href="/projects">Volver a la lista</a>
+
+<!-- Footer -->
+<footer class="bg-light text-center text-muted py-3 mt-auto">
+    <small>&copy; 2025 GestorTIC</small>
+</footer>
+
+<!-- Scripts -->
+<script th:src="@{/webjars/bootstrap/js/bootstrap.bundle.min.js}"></script>
 
 </body>
 </html>

@@ -25,6 +25,12 @@
         <textarea id="description" th:field="*{description}" placeholder="Descripción de la tarea" rows="4"></textarea>
     </div>
     <br>
+    <!-- Fecha de creacion -->
+    <div>
+        <label for="createdAt">Fecha creacion:</label>
+        <input type="date" id="createdAt" name="createdAt"
+               th:value="${task.createdAt != null} ? ${task.createdAt} : ''" />
+    </div>
     <!-- Fecha de vencimiento -->
     <div>
         <label for="dueDate">Fecha límite:</label>
@@ -36,9 +42,16 @@
     <div>
         <label>Estado:</label>
         <select id="taskStatus" th:field="*{taskStatus}">
-            <option th:each="status : ${taskStatus}" th:value="${status}" th:text="${status}"></option>
+            <option th:each="status : ${taskStatus}" th:value="${status}" th:text="${status.displayName}"></option>
         </select>
     </div>
+
+    <label>Prioridad:</label>
+    <select th:field="*{priority}" class="form-select" required>
+        <option value="" disabled>Selecciona prioridad</option>
+        <option th:each="priority : ${priorities}" th:value="${priority}" th:text="${priority}">
+        </option>
+    </select>
     <!-- Botones -->
     <div>
         <a th:href="@{/tasks}">Cancelar</a>

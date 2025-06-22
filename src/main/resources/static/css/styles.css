@@ -54,3 +54,38 @@ footer {
     font-size: 0.9rem;
     color: #6c757d;
 }
+
+.btn-circle-custom {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: 2px solid #2e27de;
+  background-color: white;
+  color: #2e27de;
+  transition: all 0.3s ease;
+  font-size: 20px;
+  text-decoration: none;
+}
+
+.btn-circle-custom:hover {
+  background-color: #2e27de;
+  color: white;
+}
+
+/* cabecera tabla */
+.table-gestortic {
+  background-color: #2e27de !important;
+  color: white !important;
+}
+
+.table-gestortic th {
+  color: white !important;
+  vertical-align: middle;
+  text-align: center;
+  border-color: #1f1bb5 !important; /* para que bordes sean visibles */
+  background-color: #2e27de !important; /* repetir aquí para cada th */
+}
+

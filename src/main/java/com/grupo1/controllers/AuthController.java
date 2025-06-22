@@ -37,14 +37,6 @@ public class AuthController {
         return "index";
     }
 
-
-   /* // Mostrar formulario de registro
-    @GetMapping("/register")
-    public String registerForm(Model model) {
-        model.addAttribute("user", new User());
-        return "auth/register";  // apunta a templates/auth/register.html
-    }*/
-
     // Procesar formulario de registro
     @PostMapping("/auth/register")
     public String registerUser(@ModelAttribute User user,

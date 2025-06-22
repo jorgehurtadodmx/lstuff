@@ -1,10 +1,60 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <meta charset="UTF-8" />
+    <title>Perfil de Usuario</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" th:href="@{/favicon.ico}" />
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" />
+    <link rel="stylesheet" th:href="@{/webjars/font-awesome/css/all.css}">
+    <link rel="stylesheet" th:href="@{/css/styles.css}" />
 </head>
+<!-- Navbar -->
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+
 <body>
+
+<!-- Contenido principal -->
+<main class="d-flex justify-content-center my-5 flex-grow-1">
+    <div class="w-100" style="max-width: 500px;">
+        <div class="card shadow-sm">
+            <div class="card-header text-white text-center" style="background-color: #2e27de;">
+                <h1 class="m-0">
+                    <i class="fas fa-address-card me-2"></i> <!-- Carita antes del título -->
+                    <span th:text="'Perfil de ' + ${loggedUser.name}">Perfil de Usuario</span>
+                </h1>
+            </div>
+            <div class="card-body text-start">
+                <h2 class="card-title">
+                    <i class="fas fa-info-circle color-gestortic me-2"></i> <!-- círculo con i -->
+                    Información del Usuario
+                </h2>
+
+                <!-- Campos con iconos -->
+                <p><i class="fas fa-user me-2  mt-3 text-secondary"></i><strong>Nombre:</strong> <span th:text="${loggedUser.name}"></span></p>
+                <p><i class="fas fa-user-tag me-2 text-secondary"></i><strong>Apellidos:</strong> <span th:text="${loggedUser.surname}"></span></p>
+                <p><i class="fas fa-phone me-2 text-secondary"></i><strong>Teléfono:</strong> <span th:text="${loggedUser.phone}"></span></p>
+                <p><i class="fas fa-user-circle me-2 text-secondary"></i><strong>Usuario:</strong> <span th:text="${loggedUser.username}"></span></p>
+                <p><i class="fas fa-envelope me-2 text-secondary"></i><strong>Correo Electrónico:</strong> <span th:text="${loggedUser.email}"></span></p>
+
+                <!--Botón a la derecha para volver a la página anterior-->
+                <div class="d-flex justify-content-end mt-4">
+                    <a href="javascript:history.back()" class="btn btn-circle-custom" title="Volver">
+                        <i class="fas fa-arrow-left"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+            <!-- Footer -->
+<footer class="bg-light text-center text-muted py-3 mt-auto">
+    <small>&copy; 2025 GestorTIC</small>
+</footer>
+
+<!-- Scripts -->
+<script th:src="@{/webjars/bootstrap/js/bootstrap.bundle.min.js}"></script>
 
 </body>
 </html>
