@@ -9,7 +9,9 @@
     <link rel="stylesheet" th:href="@{/webjars/font-awesome/css/all.css}">
     <link rel="stylesheet" th:href="@{/css/styles.css}" />
 </head>
-<body class="d-flex flex-column min-vh-100">
+<body class="d-flex flex-column min-vh-100" style="background-color: #F8F9Fa;">
+
+
 
 <!-- Navbar -->
 <div th:replace="~{fragments/navbar :: navbar}"></div>
@@ -46,26 +48,6 @@
     </div>
 
 
-    <!-- &lt;!&ndash; Si no hay proyectos &ndash;&gt;
-     <div th:if="${projects.isEmpty()}" class="alert alert-warning mt-3">
-         <p class="mb-0">Sin proyectos</p>
-     </div>
-
-     &lt;!&ndash; Botones acción &ndash;&gt;
-     <div th:unless="${projects.isEmpty()}" class="d-flex justify-content-between align-items-center my-3">
-         <a class="btn btn-success" th:href="@{/projects/new}">
-             <i class="fa-solid fa-plus me-2"></i>Nuevo proyecto</a>
-
-         <div class="btn-group" role="group">
-             <button id="btnTabla" class="btn btn-outline-primary active">
-                 <i class="fas fa-table me-1"></i> Tabla
-             </button>
-             <button id="btnCards" class="btn btn-outline-primary">
-                 <i class="fas fa-th-large me-1"></i> Tarjetas
-             </button>
-         </div>
-     </div>
- -->
     <!-- Vista Tabla -->
     <div th:unless="${projects.isEmpty()}" id="vistaTabla" class="table-responsive">
         <table class="table table-bordered table-striped table-hover">
@@ -73,9 +55,10 @@
             <tr>
                 <th><i class="fas fa-hashtag me-1"></i>ID</th>
                 <th><i class="fas fa-font me-1"></i>Nombre</th>
-                <th><i class="fas fa-align-left me-1"></i>Descripción</th>
-                <th><i class="fas fa-tasks me-1"></i>Asignadas</th>
+                <th><i class="fas fa-align-left me-1"></i>Descripción</th>¡
                 <th><i class="fas fa-list me-1"></i>Tareas</th>
+                <!--<th><i class="fas fa-tasks me-1"></i>Total tareas</th>-->
+                <th><i class="fas fa-users me-1"></i>Usuarios</th>
                 <th><i class="fas fa-cogs me-1"></i>Acciones</th>
             </tr>
             </thead>
@@ -84,14 +67,17 @@
                 <td th:text="${project.id}"></td>
                 <td th:text="${project.name}"></td>
                 <td th:text="${project.description}"></td>
-                <td th:text="${project.tasks != null ? project.tasks.size() : 0}"></td>
                 <td>
                     <ul th:if="${project.tasks != null}">
                         <li th:each="task, stat : ${project.tasks}" th:if="${stat.index < 3}">
-                            <a th:href="@{/tasks/{id}(id=${task.id})}" th:text="${task.title}"></a>
+                            <span th:text="${task.title}"></span>
+
                         </li>
                     </ul>
                 </td>
+                <!--<td th:text="${project.tasks != null ? project.tasks.size() : 0}"></td>-->
+                <td th:text="${project.users != null ? project.users.size() : 0}"></td>
+
                 <td>
                     <div class="d-flex gap-1 justify-content-center">
                         <a th:href="@{/projects/{id}(id=${project.id})}" class="btn btn-primary btn-sm">
@@ -114,6 +100,7 @@
     </div>
 
     <!-- Vista Cards -->
+    <!-- Vista Cards -->
     <div th:unless="${projects.isEmpty()}" id="vistaCards" class="row g-4 d-none">
         <div class="col-md-4" th:each="project : ${projects}">
             <div class="card h-100 shadow-sm border-0">
@@ -123,14 +110,21 @@
                 </div>
                 <div class="card-body text-start">
                     <p th:text="${project.description}">Descripción</p>
-                    <p><strong><i class="fas fa-tasks me-1"></i>Asignadas:</strong>
+
+                    <p><strong><i class="fas fa-list me-1"></i>Tareas:</strong>
                         <span th:text="${project.tasks != null ? project.tasks.size() : 0}"></span>
                     </p>
+
                     <ul class="list-unstyled small" th:if="${project.tasks != null}">
                         <li th:each="task, stat : ${project.tasks}" th:if="${stat.index < 3}">
                             <a th:href="@{/tasks/{id}(id=${task.id})}" th:text="${task.title}"></a>
                         </li>
                     </ul>
+
+                    <!-- Número de usuarios asignados -->
+                    <p><strong><i class="fas fa-users me-1"></i>Usuarios:</strong>
+                        <span th:text="${project.users != null ? project.users.size() : 0}"></span>
+                    </p>
                 </div>
                 <div class="card-footer d-flex justify-content-between">
                     <a th:href="@{/projects/{id}(id=${project.id})}" class="btn btn-primary btn-sm">
