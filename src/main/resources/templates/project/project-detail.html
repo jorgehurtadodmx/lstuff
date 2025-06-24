@@ -47,7 +47,7 @@
 
                 <p>
                     <i class="fas fa-user-tie me-2 text-secondary"></i>
-                    <strong>Proyecto creado por:</strong> <span th:text="${project.users.get(0).username}"></span>
+                    <strong>Proyecto creado por:</strong> <span th:text="${project.createdBy.username}"></span>
                 </p>
 
                 <h4 class="mt-4">
@@ -56,9 +56,12 @@
                 <ul class="list-group list-group-flush mb-3" th:if="${project.tasks}">
                     <li class="list-group-item" th:each="task : ${project.tasks}">
                         <i class="fas fa-check-circle me-2 text-secondary"></i>
-                        <span th:text="${task.title}"></span>
+                        <a th:href="@{/tasks/{id}(id=${task.id})}" th:text="${task.title}"></a>
                     </li>
                 </ul>
+                <a th:href="@{/tasks/project/{projectId}(projectId=${project.id})}" class="btn btn-primary">
+                    Ver listado completo de tareas
+                </a>
 
                 <div class="d-flex flex-wrap justify-content-between mt-4 gap-2">
                     <a th:href="@{/tasks/new(projectId=${project.id})}" class="btn btn-success">

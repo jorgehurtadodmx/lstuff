@@ -1,41 +1,76 @@
 package com.grupo1.entities;
 
+
 import jakarta.persistence.*;
-import lombok.*;
 
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
+import java.time.LocalDateTime;
 
-@Getter
-@Setter
-@ToString(exclude = "tasks")
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
 @Entity
-@Table(name = "comments")
+@Table(name = "comment")
 public class Comment {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
-    private String title;
 
-    @Column(length = 500)
-    private String comment;
+    @Column(nullable = false, length = 200)
+    private String description;
 
-    //    @Column(name = "due_date")
-    //    private LocalDate dueDate;
-    //
-    //    private LocalDate createAt;
-    //
-    //    private LocalDate updateAt;
-
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "task_id", nullable = false)
     private Task task;
 
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
+    //fechaCreacion a
+    @Column(nullable = false)
+    private LocalDateTime creationDate;
+
+    public Comment() {
+        this.creationDate = LocalDateTime.now();
+    }
+
+    // Getters y setters
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public Task getTask() {
+        return task;
+    }
+
+    public void setTask(Task task) {
+        this.task = task;
+    }
+
+    public User getUsuario() {
+        return user;
+    }
+
+    public void setUsuario(User usuario) {
+        this.user = usuario;
+    }
+
+    public LocalDateTime getCreationDate() {
+        return creationDate;
+    }
+
+    public void setCreationDate(LocalDateTime creationDate) {
+        this.creationDate = creationDate;
+    }
 }

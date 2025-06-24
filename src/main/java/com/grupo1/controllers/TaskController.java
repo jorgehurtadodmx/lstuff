@@ -1,10 +1,12 @@
 package com.grupo1.controllers;
 
+import com.grupo1.entities.Comment;
 import com.grupo1.entities.Project;
 import com.grupo1.entities.Task;
 import com.grupo1.entities.User;
 import com.grupo1.enums.Priority;
 import com.grupo1.enums.TaskStatus;
+import com.grupo1.repositories.CommentRepository;
 import com.grupo1.repositories.ProjectRepository;
 import com.grupo1.repositories.TaskRepository;
 import com.grupo1.repositories.UserRepository;
@@ -33,6 +35,9 @@ public class TaskController {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private CommentRepository commentRepository;
+
     public TaskController(TaskRepository taskRepository, ProjectRepository projectRepository) {
         this.taskRepository = taskRepository;
         this.projectRepository = projectRepository;
@@ -46,14 +51,25 @@ public class TaskController {
 
         List<Project> userProjects = user.getProjects();
 
-        List<Task> userTasks = new ArrayList<>();
+        List<Task> projectTasks = new ArrayList<>();
+        List<Task> assignedTasks = new ArrayList<>();
+
+
         for (Project project : userProjects) {
-            userTasks.addAll(project.getTasks());
+            for (Task task : project.getTasks()) {
+                projectTasks.add(task);
+                if (task.getAssignedUser() != null && task.getAssignedUser().equals(user)) {
+                    assignedTasks.add(task);
+                }
+            }
         }
 
-        model.addAttribute("loggedUser", user);
-        model.addAttribute("tasks", userTasks);
 
+
+
+        model.addAttribute("loggedUser", user);
+        model.addAttribute("projectTasks", projectTasks);
+        model.addAttribute("assignedTasks", assignedTasks);
         return "/task/task-list";
     }
 
@@ -82,13 +98,56 @@ public class TaskController {
         return "task/task-list";
     }
 
-    //DETALE por ID de task
-    //posiblemente convenga que la información de la propia tarea aparezca en la misma VISTA.
+
+
+    @GetMapping("/project/{projectId}")
+    public String getProjectTasks(@PathVariable Long projectId, Model model, Principal principal) {
+        String username = principal.getName();
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado"));
+
+
+        Optional<Project> projectOpt = projectRepository.findById(projectId);
+        if (projectOpt.isEmpty()) {
+            model.addAttribute("error", "Proyecto no encontrado");
+            return "task/task-list";
+        }
+
+        Project project = projectOpt.get();
+            if (!project.getUsers().contains(user)) {
+                model.addAttribute("error", "no tienes acceso a este proyecto");
+                return "task/task-list";
+            }
+
+        List<Task> tasks = project.getTasks();
+
+        model.addAttribute("loggedUser", user);
+        model.addAttribute("project", project);
+        model.addAttribute("tasks", tasks);
+        return "task/task-list-by-project";
+
+
+
+
+
+
+
+    }
+
+
     @GetMapping("/{id}")
-    public String findById(Model model, @PathVariable Long id) {
-        Optional<Task> task = taskRepository.findById(id);
-        if (task.isPresent()) {
-            model.addAttribute("task", task.get());
+    public String findById(Model model, @PathVariable Long id, Principal principal) {
+        Optional<Task> taskOpt = taskRepository.findById(id);
+        if (taskOpt.isPresent()) {
+            Task task = taskOpt.get();
+            model.addAttribute("task", task);
+
+            List<Comment> comments = commentRepository.findByTaskOrderByCreationDateDesc(task);
+            model.addAttribute("comments", comments);
+            if (principal != null) {
+                userRepository.findByUsername(principal.getName())
+                        .ifPresent(user -> model.addAttribute("loggedUser", user));
+            }
         } else {
             model.addAttribute("error", "tarea no encontrada");
         }

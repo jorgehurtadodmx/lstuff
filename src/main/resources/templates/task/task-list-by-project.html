@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Tareas del proyecto</title>
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" />
+</head>
+<body>
+<!-- Navbar -->
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+
+<div class="container my-4">
+    <h2 th:text="'Tareas del proyecto: ' + ${project.name}"></h2>
+
+    <div th:if="${tasks == null or #lists.isEmpty(tasks)}" class="alert alert-warning">
+        No hay tareas en este proyecto.
+    </div>
+
+    <div th:if="${tasks != null and !#lists.isEmpty(tasks)}" class="table-responsive">
+        <table class="table table-bordered table-striped table-hover">
+            <thead class="table-dark">
+            <tr>
+                <th>ID</th>
+                <th>Titulo</th>
+                <th>Descripcion</th>
+                <th>Estado</th>
+                <th>Prioridad</th>
+                <th>Fecha fin</th>
+                <th>Creado el</th>
+                <th>Actualizado el</th>
+                <th>Asignado a</th>
+                <th>Acciones</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="task : ${tasks}">
+                <td th:text="${task.id}"></td>
+                <td th:text="${task.title}"></td>
+                <td th:text="${task.description}"></td>
+                <td th:text="${task.taskStatus.displayName}"></td>
+                <td th:text="${task.priority.displayName}"></td>
+                <td th:text="${task.dueDate != null ? #temporals.format(task.dueDate, 'dd/MM/yyyy') : 'Sin fecha de finalización'}"></td>
+                <td th:text="${task.createdAt != null ? #temporals.format(task.createdAt, 'dd/MM/yyyy') : 'Sin fecha de creación'}"></td>
+                <td th:text="${task.updatedAt != null ? #temporals.format(task.updatedAt, 'dd/MM/yyyy') : 'Sin fecha de actualización'}"></td>
+                <td th:text="${task.assignedUser != null ? task.assignedUser.name : 'No asignado'}"></td>
+                <td>
+                    <div class="d-flex gap-1">
+                        <a th:href="@{/tasks/{id}(id=${task.id})}" class="btn btn-primary btn-sm">Detalle</a>
+                        <a th:href="@{/tasks/{id}/editar(id=${task.id})}" class="btn btn-warning btn-sm">Editar</a>
+                        <form th:action="@{/tasks/{id}/eliminar(id=${task.id})}" method="post">
+                            <button type="submit" class="btn btn-danger btn-sm">Borrar</button>
+                        </form>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script th:src="@{/webjars/bootstrap/js/bootstrap.bundle.min.js}"></script>
+</body>
+</html>

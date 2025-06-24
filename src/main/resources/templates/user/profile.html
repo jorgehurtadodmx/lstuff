@@ -37,6 +37,12 @@
                 <p><i class="fas fa-user-circle me-2 text-secondary"></i><strong>Usuario:</strong> <span th:text="${loggedUser.username}"></span></p>
                 <p><i class="fas fa-envelope me-2 text-secondary"></i><strong>Correo Electrónico:</strong> <span th:text="${loggedUser.email}"></span></p>
 
+                <!-- Enlace a tareas asignadas -->
+                <div class="d-flex justify-content-end mt-4 gap-2">
+                    <a th:href="@{/tasks}" class="btn btn-primary">
+                        <i class="fas fa-tasks me-1"></i> Ver mis tareas
+                    </a>
+
                 <!--Botón a la derecha para volver a la página anterior-->
                 <div class="d-flex justify-content-end mt-4">
                     <a href="javascript:history.back()" class="btn btn-circle-custom" title="Volver">

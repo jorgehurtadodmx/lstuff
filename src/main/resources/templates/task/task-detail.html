@@ -1,51 +1,115 @@
-<!doctype html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Detalle de tarea</title>
-    <link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}">
+    <meta charset="UTF-8" />
+    <title>Detalle de Tarea</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" th:href="@{/favicon.ico}" />
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" />
+    <link rel="stylesheet" th:href="@{/webjars/font-awesome/css/all.css}" />
+    <link rel="stylesheet" th:href="@{/css/styles.css}" />
 </head>
 <body>
-<div th:if="${task}">
-    <h2 th:text="${task.title}"></h2>
-    <div class="detalle-item">
-        <strong>ID:</strong> <span th:text="${task.id}"></span>
-    </div>
-    <div class="detalle-item">
-        <strong>Nombre:</strong> <span th:text="${task.title}"></span>
-    </div>
-    <div class="detalle-item" th:if="${task.project != null}">
-        <strong>Proyecto:</strong> <span th:text="${task.project.name}"></span>
-    </div>
-    <div class="detalle-item" th:if="${task.taskStatus != null}">
-        <strong>Estado:</strong> <span th:text="${task.taskStatus.displayName}"></span>
-    </div>
-    <div class="detalle-item">
-        <strong>Prioridad:</strong> <span th:text="${task.priority}"></span>
-    </div>
-    <div class="detalle-item" th:if="${task.updatedAt != null}">
-        <strong>Actualizado el:</strong> <span th:text="${#temporals.format(task.updatedAt, 'dd/MM/yyyy')}"></span>
-    </div>
-</div>
-<div th:if="${task.assignedUser == null}">
+<!-- Navbar -->
+<div th:replace="~{fragments/navbar :: navbar}"></div>
 
-    <form th:action="@{/tasks/{id}/assign(id=${task.id})}" method="post">
-        <button type="submit">Asignarme esta tarea</button>
-    </form>
-</div>
+<!-- Contenido principal -->
+<main class="d-flex justify-content-center my-5 flex-grow-1">
+    <div class="w-100" style="max-width: 700px;" th:if="${task}">
+        <div class="card shadow-sm">
+            <div class="card-header text-white text-center" style="background-color: #2e27de;">
+                <h1 class="m-0">
+                    <i class="fas fa-tasks me-2"></i> <!-- ícono tarea -->
+                    <span th:text="${task.title}">Título de la tarea</span>
+                </h1>
+            </div>
 
-<div th:if="${task.assignedUser != null}">
-    Asignada a: <span th:text="${task.assignedUser.username}">Usuario</span>
-</div>
-<div>
-    <a th:href="@{/comments/new(taskId=${task.id})}" class="btn btn-success">Crear nuevo comentario</a>
-</div>
-<div th:if="${error}">
-    <p th:text="${error}" class="text-danger"></p>
-</div>
-<div class="mt-4">
-    <a th:href="@{/tasks}" class="btn btn-secondary">Volver a todas las tareas</a>
-</div>
+            <div class="card-body text-start">
+                <h2 class="card-title">
+                    <i class="fas fa-info-circle me-2" style="color:#2e27de;"></i>
+                    Información de la Tarea
+                </h2>
+
+                <p><i class="fas fa-hashtag me-2 text-secondary"></i><strong>ID:</strong> <span th:text="${task.id}"></span></p>
+                <p><i class="fas fa-align-left me-2 text-secondary"></i><strong>Nombre:</strong> <span th:text="${task.title}"></span></p>
+                <p th:if="${task.project != null}">
+                    <i class="fas fa-building me-2 text-secondary"></i><strong>Proyecto:</strong> <span th:text="${task.project.name}"></span>
+                </p>
+                <p th:if="${task.taskStatus != null}">
+                    <i class="fas fa-info me-2 text-secondary"></i><strong>Estado:</strong> <span th:text="${task.taskStatus.displayName}"></span>
+                </p>
+                <p>
+                    <i class="fas fa-flag me-2 text-secondary"></i><strong>Prioridad:</strong> <span th:text="${task.priority.displayName}"></span>
+                </p>
+                <p th:if="${task.updatedAt != null}">
+                    <i class="fas fa-calendar-check me-2 text-secondary"></i><strong>Actualizado el:</strong>
+                    <span th:text="${#temporals.format(task.updatedAt, 'dd/MM/yyyy')}"></span>
+                </p>
+
+                <div th:if="${task.assignedUser == null}" class="my-3">
+                    <form th:action="@{/tasks/{id}/assign(id=${task.id})}" method="post">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-user-plus me-1"></i> Asignarme esta tarea
+                        </button>
+                    </form>
+                </div>
+
+                <div th:if="${task.assignedUser != null}" class="mb-3">
+                    <i class="fas fa-user-check me-2 text-secondary"></i>
+                    <strong>Asignada a:</strong> <span th:text="${task.assignedUser.username}"></span>
+                </div>
+
+                <div th:if="${error}">
+                    <p th:text="${error}" class="text-danger"></p>
+                </div>
+
+                <!-- Sección Comentarios -->
+                <section class="mt-5">
+                    <h3><i class="fas fa-comments me-2" style="color:#2e27de;"></i>Comentarios</h3>
+
+                    <div th:if="${comments != null and !comments.isEmpty()}">
+                        <ul class="list-group">
+                            <li class="list-group-item" th:each="comment : ${comments}">
+                                <small class="text-muted" th:text="${#temporals.format(comment.creationDate, 'dd/MM/yyyy HH:mm')}"></small> -
+                                <strong th:text="${comment.usuario.username}">Usuario</strong>:
+                                <p th:text="${comment.description}" class="mb-0"></p>
+                            </li>
+                        </ul>
+                    </div>
+                    <div th:if="${comments == null or comments.isEmpty()}">
+                        <p class="text-muted">No hay comentarios todavía.</p>
+                    </div>
+
+                    <form th:action="@{/comentarios/task/{taskId}/add(taskId=${task.id})}" method="post" class="mt-3">
+                        <div class="mb-3">
+                            <label for="description" class="form-label">Añadir comentario</label>
+                            <textarea id="description" name="description" class="form-control" rows="3" required
+                                      placeholder="Escribe tu comentario aquí..."></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-success">Enviar comentario</button>
+                    </form>
+                </section>
+
+                <div class="d-flex flex-wrap justify-content-between mt-4 gap-2">
+                    <!--<a th:href="@{/tasks}" class="btn btn-secondary">
+                        <i class="fas fa-arrow-left me-1"></i> Volver a la lista de tareas
+                    </a>-->
+                    <a th:href="@{/tasks/project/{projectId}(projectId=${task.project.id})}" class="btn btn-primary" th:if="${task.project != null}">
+                        <i class="fas fa-list me-1"></i> Ver tareas del proyecto
+                    </a>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</main>
+
+<!-- Footer -->
+<footer class="bg-light text-center text-muted py-3 mt-auto">
+    <small>&copy; 2025 GestorTIC</small>
+</footer>
+
+<!-- Scripts -->
+<script th:src="@{/webjars/bootstrap/js/bootstrap.bundle.min.js}"></script>
 </body>
 </html>
