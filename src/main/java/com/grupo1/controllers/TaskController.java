@@ -142,7 +142,7 @@ public class TaskController {
             Task task = taskOpt.get();
             model.addAttribute("task", task);
 
-            List<Comment> comments = commentRepository.findByTaskOrderByFechaCreacionDesc(task);
+            List<Comment> comments = commentRepository.findByTaskOrderByCreationDateDesc(task);
             model.addAttribute("comments", comments);
             if (principal != null) {
                 userRepository.findByUsername(principal.getName())

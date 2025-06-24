@@ -37,7 +37,7 @@ public class CommentController {
             }
 
             Task task = taskOpt.get();
-            List<Comment> comentarios = comentarioRepository.findByTaskOrderByFechaCreacionDesc(task);
+            List<Comment> comentarios = comentarioRepository.findByTaskOrderByCreationDateDesc(task);
             model.addAttribute("task", task);
             model.addAttribute("comentarios", comentarios);
 
@@ -47,7 +47,7 @@ public class CommentController {
 
         @PostMapping("/task/{taskId}/add")
         public String addComentario(@PathVariable Long taskId,
-                                    @RequestParam String descripcion,
+                                    @RequestParam String description,
                                     Principal principal,
                                     Model model) {
             Optional<Task> taskOpt = taskRepository.findById(taskId);
@@ -69,7 +69,7 @@ public class CommentController {
             }
 
             Comment comentario = new Comment();
-            comentario.setDescripcion(descripcion);
+            comentario.setDescription(description);
             comentario.setTask(task);
             comentario.setUsuario(user);
             comentarioRepository.save(comentario);

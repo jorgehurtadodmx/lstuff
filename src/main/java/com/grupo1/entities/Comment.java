@@ -13,8 +13,9 @@ public class Comment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    //arreglar descripcion a description
     @Column(nullable = false, length = 200)
-    private String descripcion;
+    private String description;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "task_id", nullable = false)
@@ -23,12 +24,12 @@ public class Comment {
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
-
+    //fechaCreacion a
     @Column(nullable = false)
-    private LocalDateTime fechaCreacion;
+    private LocalDateTime creationDate;
 
     public Comment() {
-        this.fechaCreacion = LocalDateTime.now();
+        this.creationDate = LocalDateTime.now();
     }
 
     // Getters y setters
@@ -41,12 +42,12 @@ public class Comment {
         this.id = id;
     }
 
-    public String getDescripcion() {
-        return descripcion;
+    public String getDescription() {
+        return description;
     }
 
-    public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public Task getTask() {
@@ -65,11 +66,11 @@ public class Comment {
         this.user = usuario;
     }
 
-    public LocalDateTime getFechaCreacion() {
-        return fechaCreacion;
+    public LocalDateTime getCreationDate() {
+        return creationDate;
     }
 
-    public void setFechaCreacion(LocalDateTime fechaCreacion) {
-        this.fechaCreacion = fechaCreacion;
+    public void setCreationDate(LocalDateTime creationDate) {
+        this.creationDate = creationDate;
     }
 }
