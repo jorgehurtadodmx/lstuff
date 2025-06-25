@@ -1,29 +1,48 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Tareas del proyecto</title>
+    <title>Tareas del Proyecto</title>
+    <link rel="icon" th:href="@{/favicon.ico}" />
     <link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" />
+    <link rel="stylesheet" th:href="@{/webjars/font-awesome/css/all.min.css}" />
+    <link rel="stylesheet" th:href="@{/css/styles.css}" />
 </head>
-<body>
+<body class="d-flex flex-column min-vh-100" style="background-color: #F8F9Fa;">
+
 <!-- Navbar -->
 <div th:replace="~{fragments/navbar :: navbar}"></div>
 
-<div class="container my-4">
-    <h2 th:text="'Tareas del proyecto: ' + ${project.name}"></h2>
+<main class="container my-5 flex-grow-1">
 
+    <!-- Título -->
+    <h1 class="color-gestortic p-3 rounded-top d-flex align-items-center justify-content-start"
+        style="background-color: #f8f9fa; border: 1px solid #dee2e6; border-bottom: none; font-weight: bold; font-size: 1.5rem;">
+        <i class="fas fa-tasks me-2"></i> Tareas del proyecto: <span class="ms-2" th:text="${project.name}"></span>
+    </h1>
+
+    <!-- Botón nueva tarea -->
+    <div class="d-flex justify-content-end align-items-center p-3 border border-top-0 rounded-bottom mb-4"
+         style="background-color: #ffffff;">
+        <a th:href="@{/tasks/new(projectId=${project.id})}" class="btn btn-success">
+            <i class="fas fa-plus"></i> Nueva Tarea
+        </a>
+    </div>
+
+    <!-- Mensaje si no hay tareas -->
     <div th:if="${tasks == null or #lists.isEmpty(tasks)}" class="alert alert-warning">
         No hay tareas en este proyecto.
     </div>
 
+    <!-- Tabla de tareas -->
     <div th:if="${tasks != null and !#lists.isEmpty(tasks)}" class="table-responsive">
         <table class="table table-bordered table-striped table-hover">
-            <thead class="table-dark">
-            <tr>
+            <thead class="table-secondary">
+            <tr class="text-center">
                 <th>ID</th>
-                <th>Titulo</th>
-                <th>Descripcion</th>
+                <th>Título</th>
+                <th>Descripción</th>
                 <th>Estado</th>
                 <th>Prioridad</th>
                 <th>Fecha fin</th>
@@ -35,21 +54,28 @@
             </thead>
             <tbody>
             <tr th:each="task : ${tasks}">
-                <td th:text="${task.id}"></td>
+                <td th:text="${task.id}" class="text-center"></td>
                 <td th:text="${task.title}"></td>
                 <td th:text="${task.description}"></td>
-                <td th:text="${task.taskStatus.displayName}"></td>
-                <td th:text="${task.priority.displayName}"></td>
-                <td th:text="${task.dueDate != null ? #temporals.format(task.dueDate, 'dd/MM/yyyy') : 'Sin fecha de finalización'}"></td>
-                <td th:text="${task.createdAt != null ? #temporals.format(task.createdAt, 'dd/MM/yyyy') : 'Sin fecha de creación'}"></td>
-                <td th:text="${task.updatedAt != null ? #temporals.format(task.updatedAt, 'dd/MM/yyyy') : 'Sin fecha de actualización'}"></td>
-                <td th:text="${task.assignedUser != null ? task.assignedUser.name : 'No asignado'}"></td>
-                <td>
-                    <div class="d-flex gap-1">
-                        <a th:href="@{/tasks/{id}(id=${task.id})}" class="btn btn-primary btn-sm">Detalle</a>
-                        <a th:href="@{/tasks/{id}/editar(id=${task.id})}" class="btn btn-warning btn-sm">Editar</a>
-                        <form th:action="@{/tasks/{id}/eliminar(id=${task.id})}" method="post">
-                            <button type="submit" class="btn btn-danger btn-sm">Borrar</button>
+                <td th:text="${task.taskStatus.displayName}" class="text-center"></td>
+                <td th:text="${task.priority.displayName}" class="text-center"></td>
+                <td th:text="${task.dueDate != null ? #temporals.format(task.dueDate, 'dd/MM/yyyy') : 'Sin fecha'}" class="text-center"></td>
+                <td th:text="${task.createdAt != null ? #temporals.format(task.createdAt, 'dd/MM/yyyy') : 'Sin fecha'}" class="text-center"></td>
+                <td th:text="${task.updatedAt != null ? #temporals.format(task.updatedAt, 'dd/MM/yyyy') : 'Sin fecha'}" class="text-center"></td>
+                <td th:text="${task.assignedUser != null ? task.assignedUser.name : 'No asignado'}" class="text-center"></td>
+                <td class="text-center">
+                    <div class="d-flex justify-content-center gap-1">
+                        <a th:href="@{/tasks/{id}(id=${task.id})}" class="btn btn-sm btn-primary" title="Detalle">
+                            <i class="fas fa-eye"></i>
+                        </a>
+                        <a th:href="@{/tasks/{id}/editar(id=${task.id})}" class="btn btn-sm btn-warning" title="Editar">
+                            <i class="fas fa-edit"></i>
+                        </a>
+                        <form th:action="@{/tasks/{id}/eliminar(id=${task.id})}" method="post"
+                              th:onsubmit="return confirm('¿Seguro que quieres eliminar esta tarea?');">
+                            <button type="submit" class="btn btn-sm btn-danger" title="Eliminar">
+                                <i class="fas fa-trash"></i>
+                            </button>
                         </form>
                     </div>
                 </td>
@@ -57,7 +83,12 @@
             </tbody>
         </table>
     </div>
-</div>
+</main>
+
+<!-- Footer -->
+<footer class="bg-light text-center text-muted py-3 mt-auto">
+    <small>&copy; 2025 GestorTIC</small>
+</footer>
 
 <script th:src="@{/webjars/bootstrap/js/bootstrap.bundle.min.js}"></script>
 </body>

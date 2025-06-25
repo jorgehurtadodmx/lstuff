@@ -8,6 +8,7 @@
     <link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" />
     <link rel="stylesheet" th:href="@{/webjars/font-awesome/css/all.css}">
     <link rel="stylesheet" th:href="@{/css/styles.css}" />
+
 </head>
 <body class="d-flex flex-column min-vh-100">
 
@@ -95,6 +96,7 @@
                     <input type="text" th:field="*{username}" class="form-control mb-3" placeholder="Usuario" required />
                     <input type="email" th:field="*{email}" class="form-control mb-3" placeholder="Correo electrónico" required />
                     <input id="registerPassword" type="password" th:field="*{password}" class="form-control mb-1" placeholder="Contraseña" required />
+                    <small class="text-muted mb-2 d-block">Mínimo 8 caracteres, una mayúscula y un número.</small>
                     <input id="registerConfirmPassword" type="password" name="confirmPassword" class="form-control mb-3" placeholder="Repetir Contraseña" required />
                     <div class="form-check mb-3">
                         <input class="form-check-input" type="checkbox" id="showRegisterPassword">

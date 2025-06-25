@@ -73,28 +73,43 @@ public class TaskController {
         return "/task/task-list";
     }
 
-    //TODO: buscador de tareas, de momento filtro por nombre
+    //Ojo quew hay dos usos de filtro para task? diferenciar entre tasks de user y tasks de project
     //filtro por nomnre
-    @GetMapping("/buscar")  //http://localhost:8080/tareas/buscar?title=tarea1
+    @GetMapping("/buscar")
     public String findByName(Model model, @RequestParam("title") String title, Principal principal) {
+        if (principal == null) {
+            return "redirect:/login";
+        }
+
+        if (title == null || title.trim().length() < 3) {
+            return "redirect:/tasks";
+        }
+
         String username = principal.getName();
         User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado"));
 
+
+
         List<Project> userProjects = user.getProjects();
-        List<Task> userTasks = new ArrayList<>();
+        List<Task> projectTasks = new ArrayList<>();
+        List<Task> assignedTasks = new ArrayList<>();
 
         for (Project project : userProjects) {
             for (Task task : project.getTasks()) {
                 if (task.getTitle().toLowerCase().contains(title.toLowerCase())) {
-                    userTasks.add(task);
+                    projectTasks.add(task);
+                    if (task.getAssignedUser() != null && task.getAssignedUser().getId().equals(user.getId())) {
+                        assignedTasks.add(task);
+                    }
                 }
             }
         }
 
-        //List<Task> tasks = taskRepository.findByTitleContainsIgnoreCase(title);
-        model.addAttribute("tasks", userTasks);
+        model.addAttribute("loggedUser", user);
         model.addAttribute("actualSearch", title);
+        model.addAttribute("projectTasks", projectTasks);
+        model.addAttribute("assignedTasks", assignedTasks);
         return "task/task-list";
     }
 
@@ -156,24 +171,29 @@ public class TaskController {
 
     //permite editar tarea existente
     @GetMapping("/{id}/editar")
-    public String editar(Model model, @PathVariable Long id) {
+    public String editar(Model model, @PathVariable Long id, Principal principal) {
         Optional<Task> task = taskRepository.findById(id);
         if (task.isPresent()) {
+            User user = userRepository.findByUsername(principal.getName())
+                            .orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado"));
+            model.addAttribute("loggedUser", user);
             model.addAttribute("task", task.get());
             model.addAttribute("taskStatus", TaskStatus.values());
             model.addAttribute("priorities", Priority.values());
             model.addAttribute("projects", projectRepository.findAll());
             return "task/task-form";
-
         } else {
             model.addAttribute("error", "tarea no encontrada");
         }
+
+
         return "redirect:/tasks";
     }
 
     //creacion de tareas
     @GetMapping("/new")
-    public String createTaskFromProject(@RequestParam(name = "projectId", required = false) Long projectId, Model model) {
+    public String createTaskFromProject(@RequestParam(name = "projectId", required = false) Long projectId, Model model,
+                                        Principal principal) {
         Task newTask = new Task();
         if (projectId != null) {
             Optional<Project> project = projectRepository.findById(projectId);
@@ -182,6 +202,9 @@ public class TaskController {
         LocalDate today = LocalDate.now();
         newTask.setCreatedAt(today);
 
+        User user = userRepository.findByUsername(principal.getName())
+                .orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado"));
+        model.addAttribute("loggedUser", user);
        // Priority defaultPriority = Priority.MEDIA;
        // newTask.setPriority(defaultPriority);
         //newTask.setDueDate(calculateDate(today, defaultPriority));
@@ -219,7 +242,13 @@ public class TaskController {
 
         task.setUpdatedAt(LocalDate.now());
         taskRepository.save(task);
-        return "redirect:/tasks";
+
+        if (projectId != null) {
+            return "redirect:/tasks/project/" + projectId;
+        } else {
+            return "redirect:/tasks";
+        }
+
     }
 
     //eliminar producto

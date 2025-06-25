@@ -1,67 +1,111 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8" />
     <title>Formulario de Tarea</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" th:href="@{/favicon.ico}" />
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" />
+    <link rel="stylesheet" th:href="@{/webjars/font-awesome/css/all.css}" />
+    <link rel="stylesheet" th:href="@{/css/styles.css}" />
 </head>
-<body>
+<body class="d-flex flex-column min-vh-100">
 
-<h1 th:text="${task.id != null ? 'Modificar tarea ' + task.id : 'Crear nueva tarea'}"></h1>
+<!-- Navbar -->
+<div th:replace="~{fragments/navbar :: navbar}"></div>
 
-<form th:action="@{/tasks/save}" th:object="${task}" method="post">
-    <!-- ID oculto -->
-    <input type="hidden" th:field="*{id}" />
+<!-- Contenido principal -->
+<main class="container my-5 flex-grow-1 d-flex justify-content-center">
+    <div class="w-100" style="max-width: 700px;">
+        <div class="card shadow-sm">
+            <div class="card-header text-white text-center color-gestortic" style="background-color: #2e27de;">
+                <h1 class="m-0">
+                    <i class="fas fa-tasks me-2"></i>
+                    <span th:text="${task.id != null ? 'Editar Tarea' : 'Crear Tarea'}">Formulario Tarea</span>
+                </h1>
+            </div>
 
-    <!-- Título -->
-    <div>
-        <label for="title">Título:</label>
-        <input type="text" id="title" th:field="*{title}" placeholder="Título de la tarea" required />
+            <div class="card-body">
+                <form th:action="@{/tasks/save}" th:object="${task}" method="post" novalidate>
+                    <input type="hidden" th:field="*{id}" />
+                    <input type="hidden" th:field="*{project.id}" />
+
+                    <div class="mb-3">
+                        <label for="title" class="form-label fw-bold">Título <span class="text-danger">*</span></label>
+                        <input type="text" id="title" class="form-control" th:field="*{title}" placeholder="Título de la tarea" required />
+                        <div class="invalid-feedback">El título es obligatorio.</div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="description" class="form-label fw-bold">Descripción</label>
+                        <textarea id="description" class="form-control" th:field="*{description}" rows="4" placeholder="Descripción detallada de la tarea"></textarea>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="createdAt" class="form-label fw-bold">Fecha de creación</label>
+                            <input type="date" id="createdAt" name="createdAt" class="form-control"
+                                   th:value="${task.createdAt != null} ? ${task.createdAt} : ''" />
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="dueDate" class="form-label fw-bold">Fecha límite</label>
+                            <input type="date" id="dueDate" name="dueDate" class="form-control"
+                                   th:value="${task.dueDate != null} ? ${task.dueDate} : ''" />
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="taskStatus" class="form-label fw-bold">Estado</label>
+                        <select id="taskStatus" class="form-select" th:field="*{taskStatus}">
+                            <option th:each="status : ${taskStatus}" th:value="${status}" th:text="${status.displayName}"></option>
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="priority" class="form-label fw-bold">Prioridad</label>
+                        <select id="priority" class="form-select" th:field="*{priority}" required>
+                            <option value="" disabled>Selecciona prioridad</option>
+                            <option th:each="priority : ${priorities}" th:value="${priority}" th:text="${priority}"></option>
+                        </select>
+                    </div>
+
+                    <div class="d-flex justify-content-between">
+                        <a th:href="@{/tasks}" class="btn btn-secondary">
+                            <i class="fas fa-arrow-left me-1"></i> Cancelar
+                        </a>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save me-1"></i>
+                            <span th:text="${task.id != null ? 'Actualizar' : 'Guardar'}">Guardar</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
-    <br>
+</main>
 
-    <!-- Descripción -->
-    <div>
-        <label for="description">Descripción:</label>
-        <textarea id="description" th:field="*{description}" placeholder="Descripción de la tarea" rows="4"></textarea>
-    </div>
-    <br>
-    <!-- Fecha de creacion -->
-    <div>
-        <label for="createdAt">Fecha creacion:</label>
-        <input type="date" id="createdAt" name="createdAt"
-               th:value="${task.createdAt != null} ? ${task.createdAt} : ''" />
-    </div>
-    <!-- Fecha de vencimiento -->
-    <div>
-        <label for="dueDate">Fecha límite:</label>
-        <input type="date" id="dueDate" name="dueDate"
-               th:value="${task.dueDate != null} ? ${task.dueDate} : ''" />
-    </div>
+<!-- Footer -->
+<footer class="bg-light text-center text-muted py-3 mt-auto">
+    <small>&copy; 2025 GestorTIC</small>
+</footer>
 
-    <br>
-    <div>
-        <label>Estado:</label>
-        <select id="taskStatus" th:field="*{taskStatus}">
-            <option th:each="status : ${taskStatus}" th:value="${status}" th:text="${status.displayName}"></option>
-        </select>
-    </div>
-
-    <label>Prioridad:</label>
-    <select th:field="*{priority}" class="form-select" required>
-        <option value="" disabled>Selecciona prioridad</option>
-        <option th:each="priority : ${priorities}" th:value="${priority}" th:text="${priority}">
-        </option>
-    </select>
-    <!-- Botones -->
-    <div>
-        <a th:href="@{/tasks}">Cancelar</a>
-        <button type="submit">
-            <span th:text="${task.id != null ? 'Actualizar' : 'Guardar'}"></span>
-        </button>
-    </div>
-    <input type="hidden" th:field="*{project.id}" />
-
-</form>
+<!-- Scripts -->
+<script th:src="@{/webjars/bootstrap/js/bootstrap.bundle.min.js}"></script>
+<script>
+    (() => {
+        'use strict';
+        const forms = document.querySelectorAll('form');
+        Array.from(forms).forEach(form => {
+            form.addEventListener('submit', event => {
+                if (!form.checkValidity()) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                }
+                form.classList.add('was-validated');
+            }, false);
+        });
+    })();
+</script>
 
 </body>
 </html>
