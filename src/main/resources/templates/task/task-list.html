@@ -96,7 +96,6 @@
             <table class="table table-bordered table-striped table-hover">
                 <thead class="table-secondary">
                 <tr>
-                    <th>ID</th>
                     <th>Título</th>
                     <th>Descripción</th>
                     <th>Estado</th>
@@ -111,7 +110,6 @@
                 </thead>
                 <tbody>
                 <tr th:each="task : ${projectTasks}">
-                    <td th:text="${task.id}"></td>
                     <td th:text="${task.title}"></td>
                     <td th:text="${task.description}"></td>
                     <td th:text="${task.taskStatus.displayName}"></td>
