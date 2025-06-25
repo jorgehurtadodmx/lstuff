@@ -48,7 +48,6 @@
             <table class="table table-bordered table-striped table-hover">
                 <thead class="table-primary">
                 <tr>
-                    <th>ID</th>
                     <th>Título</th>
                     <th>Descripción</th>
                     <th>Estado</th>
@@ -63,7 +62,6 @@
                 </thead>
                 <tbody>
                 <tr th:each="task : ${assignedTasks}">
-                    <td th:text="${task.id}"></td>
                     <td th:text="${task.title}"></td>
                     <td th:text="${task.description}"></td>
                     <td th:text="${task.taskStatus.displayName}"></td>
