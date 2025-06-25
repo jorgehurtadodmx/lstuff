@@ -53,7 +53,6 @@
         <table class="table table-bordered table-striped table-hover">
             <thead class="table-gestortic">
             <tr>
-                <th><i class="fas fa-hashtag me-1"></i>ID</th>
                 <th><i class="fas fa-font me-1"></i>Nombre</th>
                 <th><i class="fas fa-align-left me-1"></i>Descripción</th>
                 <th><i class="fas fa-list me-1"></i>Tareas</th>
@@ -64,7 +63,6 @@
             </thead>
             <tbody>
             <tr th:each="project : ${projects}">
-                <td th:text="${project.id}"></td>
                 <td th:text="${project.name}"></td>
                 <td th:text="${project.description}"></td>
                 <td>

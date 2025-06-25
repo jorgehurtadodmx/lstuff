@@ -97,6 +97,14 @@
                     <a th:href="@{/tasks/project/{projectId}(projectId=${task.project.id})}" class="btn btn-primary" th:if="${task.project != null}">
                         <i class="fas fa-list me-1"></i> Ver tareas del proyecto
                     </a>
+                    <a th:href="@{/projects/{projectId}(projectId=${task.project.id})}"
+                       class="btn btn-secondary"
+                       th:if="${task.project != null}">
+                        <i class="fas fa-arrow-left me-1"></i> Volver a proyecto
+                    </a>
+                    <a th:href="@{/tasks/{id}/editar(id=${task.id})}" class="btn btn-warning">
+                        <i class="fas fa-edit me-1"></i> Editar tarea
+                    </a>
                 </div>
 
             </div>
