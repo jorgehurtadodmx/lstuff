@@ -68,11 +68,11 @@ public class CommentController {
                 return "redirect:/tasks/" + taskId;
             }
 
-            Comment comentario = new Comment();
-            comentario.setDescription(description);
-            comentario.setTask(task);
-            comentario.setUsuario(user);
-            comentarioRepository.save(comentario);
+            Comment comment = new Comment();
+            comment.setDescription(description);
+            comment.setTask(task);
+            comment.setUsuario(user);
+            comentarioRepository.save(comment);
 
             return "redirect:/tasks/" + taskId;
         }

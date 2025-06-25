@@ -5,6 +5,8 @@ import com.grupo1.enums.TaskStatus;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "tasks")
@@ -44,11 +46,15 @@ public class Task {
     @JoinColumn(name = "assigned_user_id")
     private User assignedUser;
 
+    @OneToMany(mappedBy = "task", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Comment> comments = new ArrayList<>();
 
     public Task() {
     }
 
-    public Task(Long id, String title, String description, LocalDate dueDate, LocalDate createdAt, LocalDate updatedAt, TaskStatus taskStatus, Priority priority, Project project, User assignedUser) {
+
+
+    public Task(Long id, String title, String description, LocalDate dueDate, LocalDate createdAt, LocalDate updatedAt, TaskStatus taskStatus, Priority priority, Project project, User assignedUser, List<Comment> comments) {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -59,6 +65,7 @@ public class Task {
         this.priority = priority;
         this.project = project;
         this.assignedUser = assignedUser;
+        this.comments = comments;
     }
 
 
@@ -143,6 +150,14 @@ public class Task {
         this.assignedUser = assignedUser;
     }
 
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
+    }
+
     @Override
     public String toString() {
         return "Task{" +
@@ -156,6 +171,7 @@ public class Task {
                 ", priority=" + priority +
                 ", project=" + project +
                 ", assignedUser=" + assignedUser +
+                ", comments=" + comments +
                 '}';
     }
 }
